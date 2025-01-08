@@ -1,10 +1,10 @@
 <?php
 
 // General settings
-$host = "127.0.0.1";
+$host = "144.21.41.225";
 $database = "heilige_boontjes";
 $user = "root";
-$password = "";
+$password = "z0s4PDwLYbvfOd";
 
 $db = mysqli_connect($host, $user, $password, $database)
 or die("Error: " . mysqli_connect_error());
