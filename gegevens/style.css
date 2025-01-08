@@ -23,6 +23,7 @@ h3{
 h4{
     color: #FFFFFF;
     font-size: 1.25rem;
+    font-weight: normal;
 }
 
 nav {
@@ -39,10 +40,6 @@ nav a{
 nav div{
     display: flex;
     align-items: center;
-}
-a:hover{
-    background-color:#b97c42 ;
-    color: white;
 }
 
 
@@ -123,6 +120,14 @@ section{
     transition:color 0.5s, background 0.5s ;
 }
 
+.link{
+    text-decoration: underline;
+    color: #FFFFFF;
+}
+.link:hover{
+    text-decoration: none;
+}
+
 .button:hover{
     color: #000;
     background: none;
@@ -131,7 +136,7 @@ section{
 /* begin Footer code*/
 
 footer{
-    background-color: #b97c42;
+    background-color: #000000;
 }
 .footer-box{
     padding: 50px;
@@ -155,10 +160,13 @@ footer p{
     color: #FFFFFF;
 }
 footer img{
-    margin: 10px 0;
     height:40px;
-    margin-bottom: 30px;
+    margin: 10px 5px;
     flex: 1;
+}
+
+.pso{
+    height: 120px;
 }
 
 .footer-extra{

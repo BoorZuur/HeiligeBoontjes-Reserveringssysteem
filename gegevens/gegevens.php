@@ -11,15 +11,6 @@
 
 </head>
 <body>
-<nav>
-    <div class="nav-box">
-        <a href="index.html">Reizen</a>
-        <a href="index.html">Plannen</a>
-        <a href="index.html">Deals</a>
-        <a href="index.html">Uitgelicht</a>
-        <a class="contact-nav" href="contacten.html">Contact</a>
-    </div>
-</nav>
 <header class="h-contacts">
     <h1>Reservering</h1>
     <p>
@@ -120,19 +111,27 @@
             <p>Telefoonnummer: 010 840 13 83</p>
             <p>KVK 66348374</p>
             <div class="social-media">
-                <a target="_blank" href="https://www.instagram.com/heiligeboontjes/?hl=nl/"><img src="../images/HB_Style_Instagram.png" alt="instagram"></a>
-                <a target="_blank" href="https://www.facebook.com/HB.koffie/"><img src="../images/HB_Style_Facebook.png" alt="facebook"></a>
-                <a target="_blank" href="https://www.linkedin.com/company/heiligeboontjes/"><img src="../images/HB_Style_Linkedin.png" alt="linkedin"></a>
-                <a target="_blank" href="https://x.com/heiligeboontjes"><img src="../images/HB_Style_Twitter.png" alt="twitter"></a>
-
+                <a target="_blank" href="https://www.instagram.com/heiligeboontjes/?hl=nl/"><img src="images/HB_Style_Instagram.png" alt="instagram"></a>
+                <a target="_blank" href="https://www.facebook.com/HB.koffie/"><img src="images/HB_Style_Facebook.png" alt="facebook"></a>
+                <a target="_blank" href="https://www.linkedin.com/company/heiligeboontjes/"><img src="images/HB_Style_Linkedin.png" alt="linkedin"></a>
+                <a target="_blank" href="https://x.com/heiligeboontjes"><img src="images/HB_Style_Twitter.png" alt="twitter"></a>
             </div>
         </div>
-        <nav>
-            <a target="_blank" href="#">Privacyverklaring</a>
-            <a target="_blank" href="#">Algemene voorwaarden</a>
-            <a target="_blank" href="#">Cookiebeleid</a>
-            <a href="contacten.html">Contact</a>
-        </nav>
+        <div class="footer-extra">
+            <h4>Wil je ons supporten</h4>
+            <a href="https://www.heiligeboontjes.com/doneren/" class="small-button">Doneren</a>
+        </div>
+        <div class="footer-extra">
+            <h4>Klantenservice</h4>
+            <a href="https://www.heiligeboontjes.com/verzending-retournering/" class="link">Verzendingen & reserveringen</a>
+            <a href="https://www.heiligeboontjes.com/algemene-voorwaarden/" class="link">Algemene voorwaarden</a>
+            <a href="https://www.heiligeboontjes.com/prestatieladder-socialer-ondernemen/"><img class="pso" src="images/PSO123.png" alt="pso123"></a>
+        </div>
+        <div class="footer-extra">
+            <h4>Penthouse prison</h4>
+            <a href="https://www.heiligeboontjes.com/penthouse-prison/" class="link"><img class="pso" src="images/airbnb.png" alt="airbnb"></a>
+        </div>
+
     </div>
 </footer>
 </body>
