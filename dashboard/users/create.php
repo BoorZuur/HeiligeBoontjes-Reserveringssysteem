@@ -27,34 +27,38 @@ if (isset($_POST['submit'])) {
     $email = mysqli_escape_string($db, $_POST['email']);
     $password = mysqli_escape_string($db, $_POST['password']);
     $role = mysqli_escape_string($db, $_POST['role']);
+    $strippedPhone = str_replace('+', '' ,$phone);
+    $strippedPhone = str_replace(' ', '', $strippedPhone);
     $errors = [];
 
     // Server-side validation
     if (empty($firstName)) {
-        $errors['firstName'] = 'First name is required';
+        $errors['firstName'] = 'Voornaam is vereist';
     }
     if (empty($lastName)) {
-        $errors['lastName'] = 'Last name is required';
+        $errors['lastName'] = 'Achternaam is vereist';
     }
     if (empty($phone)) {
-        $errors['phone'] = 'Phone number is required';
-    } elseif (is_numeric(strlen($phone)) < 10) {
-        $errors['phone'] = 'Phone number must be 10 digits';
+        $errors['phone'] = 'Telefoonnummer is vereist';
+    } elseif (!is_numeric($strippedPhone)) {
+        $errors['phone'] = 'Telefoonnummer moet een nummer zijn';
+    } elseif (strlen($phone) < 10) {
+        $errors['phone'] = 'Telefoonnummer moet minstens 10 tekens zijn';
     }
     if (empty($email)) {
-        $errors['email'] = 'Email is required';
+        $errors['email'] = 'Email is vereist';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = 'Invalid email format';
+        $errors['email'] = 'Ongeldige email';
     }
     if (empty($password)) {
-        $errors['password'] = 'Password is required';
+        $errors['password'] = 'Password is vereist';
     } elseif (strlen($password) < 6) {
-        $errors['password'] = 'Password must be at least 6 characters';
+        $errors['password'] = 'Wachtwoord moet minstens 6 tekens zijn';
     }
     if (empty($role)) {
-        $errors['role'] = 'Role is required';
+        $errors['role'] = 'Rol is vereist';
     } elseif (!in_array($role, ['admin', 'staff'])) {
-        $errors['role'] = 'Invalid role';
+        $errors['role'] = 'Ongeldige rol';
     }
 
     // If data valid
@@ -63,8 +67,8 @@ if (isset($_POST['submit'])) {
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         // store the new user in the database.
-        $query = "INSERT INTO users (`first_name`, `last_name`, `phone`, `email`, `password`, `role`) 
-                  VALUES ('$firstName', '$lastName', $phone, '$email', '$password', '$role')";
+        $query = "INSERT INTO employees (`first_name`, `last_name`, `phone`, `email`, `password`, `role`) 
+                  VALUES ('$firstName', '$lastName', '$phone', '$email', '$password', '$role')";
 
         $result = mysqli_query($db, $query)
         or die('Error ' . mysqli_error($db) . ' with query ' . $query);
@@ -89,19 +93,19 @@ if (isset($_POST['submit'])) {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../../css/bulma.css"/>
-    <title>Create - Users | Heilige Boontjes</title>
+    <title>Aanmaken - Medewerkers | Heilige Boontjes</title>
 </head>
 <body>
 <header class="hero is-primary">
     <div class="hero-body is-flex is-justify-content-space-between">
         <div>
-            <p class="title">Users > Create</p>
-            <p class="subtitle">Create a new user</p>
-            <a class="button" href="index.php">&laquo; Go back to the list</a>
+            <p class="title">Medewerkers > Aanmaken</p>
+            <p class="subtitle">Nieuwe medewerker aanmaken</p>
+            <a class="button" href="index.php">&laquo; Ga terug</a>
         </div>
         <div>
-            <a class="button my-2" href="../../logout.php">Logout</a>
-            <p class="subtitle"> Hello, <?= htmlentities($_SESSION['first_name']) ?></p>
+            <a class="button my-2" href="../../logout.php">Uitloggen</a>
+            <p class="subtitle"> Hallo, <?= htmlentities($_SESSION['first_name']) ?></p>
         </div>
     </div>
 </header>
@@ -114,7 +118,7 @@ if (isset($_POST['submit'])) {
                     <!-- First name -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label" for="firstName">First name</label>
+                            <label class="label" for="firstName">Voornaam</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -133,7 +137,7 @@ if (isset($_POST['submit'])) {
                     <!-- Last name -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label" for="lastName">Last name</label>
+                            <label class="label" for="lastName">Achternaam</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -152,7 +156,7 @@ if (isset($_POST['submit'])) {
                     <!-- Phone -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label" for="phone">Phone</label>
+                            <label class="label" for="phone">Telefoon</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -190,7 +194,7 @@ if (isset($_POST['submit'])) {
                     <!-- Password -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label" for="password">Password</label>
+                            <label class="label" for="password">Wachtwoord</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -228,7 +232,7 @@ if (isset($_POST['submit'])) {
                     <div class="field is-horizontal">
                         <div class="field-label is-normal"></div>
                         <div class="field-body">
-                            <button class="button is-link is-fullwidth" type="submit" name="submit">Register new user
+                            <button class="button is-link is-fullwidth" type="submit" name="submit">Nieuwe medewerker registreren
                             </button>
                         </div>
                     </div>
