@@ -26,13 +26,12 @@ if (!isset($_GET['id']) || $_GET['id'] == "") {
 $id = mysqli_escape_string($db, $_GET['id']);
 $formSent = false;
 
-// sql injection ?!
-$query = "SELECT * FROM albums WHERE id = $id";
+$query = "SELECT * FROM users WHERE id = $id";
 
 $result = mysqli_query($db, $query)
 or die('Error ' . mysqli_error($db) . ' with query ' . $query);
 
-$album = mysqli_fetch_assoc($result);
+$user = mysqli_fetch_assoc($result);
 
 if (mysqli_num_rows($result) != 1) {
     header('Location: index.php');
@@ -45,9 +44,8 @@ if (isset($_POST['no'])) {
 }
 
 if (isset($_POST['yes'])) {
+    $id = $_POST['id'];
     $formSent = true;
-
-    require_once('includes/database.php');
 
     $query = "DELETE FROM users WHERE id = ?";
     $result = mysqli_execute_query($db, $query, array($id))
@@ -62,20 +60,34 @@ mysqli_close($db);
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
-    <title>Muziekalbums - Create</title>
+    <link rel="stylesheet" href="../../css/bulma.css"/>
+    <title>Delete - Users | Heilige Boontjes</title>
 </head>
 <body>
+<header class="hero is-primary">
+    <div class="hero-body is-flex is-justify-content-space-between">
+        <div>
+            <p class="title">Users > Delete</p>
+            <p class="subtitle">Delete a user</p>
+            <a class="button" href="index.php">&laquo; Go back to the list</a>
+        </div>
+        <div>
+            <a class="button my-2" href="../../logout.php">Logout</a>
+            <p class="subtitle"> Hello, <?= htmlentities($_SESSION['first_name']) ?></p>
+        </div>
+    </div>
+</header>
+<main>
 <div class="container px-4">
     <section class="columns is-centered">
         <div class="column is-10">
             <?php if (!isset($_POST['yes'])) { ?>
-                <h2 class="title mt-4">Are you sure you want to delete this album?</h2>
-                <p>Album: <?= $album['name'] ?></p>
-                <p>Artist: <?= $album['artist'] ?></p>
-                <p>Genre: <?= $album['genre'] ?></p>
-                <p>Year: <?= $album['year'] ?></p>
-                <p>Tracks: <?= $album['tracks'] ?></p>
+                <h2 class="title mt-4">Are you sure you want to delete this user?</h2>
+                <p>Voornaam: <?= htmlentities($user['first_name']) ?></p>
+                <p>Achternaam: <?= htmlentities($user['last_name']) ?></p>
+                <p>Telefoon: <?= htmlentities($user['phone']) ?></p>
+                <p>Email: <?= htmlentities($user['email']) ?></p>
+                <p>Rol: <?= htmlentities($user['role']) ?></p>
                 <form class="column is-6" action="" method="post">
                     <div class="field is-horizontal">
                         <div class="field-label is-normal"></div>
@@ -89,13 +101,15 @@ mysqli_close($db);
                             <button class="button is-link is-fullwidth is-danger" type="submit" name="yes">Yes</button>
                         </div>
                     </div>
+                    <input type="hidden" name="id" value="<?= $id ?>"/>
                 </form>
             <?php } else { ?>
-                <h2 class="title mt-4">Album deleted!</h2>
+                <h2 class="title mt-4">User deleted!</h2>
             <?php } ?>
             <a class="button mt-4" href="index.php">&laquo; Go back to the list</a>
         </div>
     </section>
 </div>
+</main>
 </body>
 </html>

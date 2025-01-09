@@ -30,7 +30,7 @@ $users = [];
 while ($row = mysqli_fetch_assoc($result)) {
     $users[] = $row;
 }
-
+$userCount = count($users);
 mysqli_close($db);
 ?>
 <!doctype html>
@@ -70,14 +70,14 @@ mysqli_close($db);
                 <th>Voornaam</th>
                 <th>Achternaam</th>
                 <th>Email</th>
-                <th class="is-link">Details</th>
-                <th class="is-warning">Edit</th>
-                <th class="is-danger">Delete</th>
+                <th class="has-text-link">Details</th>
+                <th class="has-text-warning">Edit</th>
+                <th class="has-text-danger">Delete</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
-                <td colspan="7">&copy; My Collection</td>
+                <td colspan="7"><?= $userCount ?> Resultaten</td>
             </tr>
             </tfoot>
             <tbody>
@@ -88,9 +88,9 @@ mysqli_close($db);
                     <td><?= htmlentities($user['first_name']) ?></td>
                     <td><?= htmlentities($user['last_name']) ?></td>
                     <td><?= htmlentities($user['email']) ?></td>
-                    <td><a href="details.php?id=<?= $user['id'] ?>">Details</a></td>
-                    <td><a class="has-text-warning" href="edit.php?id=<?= $user['id'] ?>">Edit</a></td>
-                    <td><a class="has-text-danger" href="delete.php?id=<?= $user['id'] ?>">Delete</a></td>
+                    <td class="has-background-link-dark"><a class="has-text-link" href="details.php?id=<?= $user['id'] ?>">Details</a></td class="is-link">
+                    <td class="has-background-warning-dark"><a class="has-text-warning" href="edit.php?id=<?= $user['id'] ?>">Edit</a></td>
+                    <td class="has-background-danger-dark"><a class="has-text-danger" href="delete.php?id=<?= $user['id'] ?>">Delete</a></td>
                 </tr>
             <?php } ?>
             </tbody>

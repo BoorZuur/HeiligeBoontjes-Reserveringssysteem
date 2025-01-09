@@ -105,134 +105,137 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 </header>
-<section class="section">
-    <div class="container content">
-        <section class="columns">
-            <form class="column is-6" action="" method="post">
+<main>
+    <section class="section">
+        <div class="container content">
+            <section class="columns">
+                <form class="column is-6" action="" method="post">
 
-                <!-- First name -->
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label" for="firstName">First name</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control has-icons-left">
-                                <input class="input" id="firstName" type="text" name="firstName"
-                                       value="<?= $firstName ?? '' ?>"/>
-                                <span class="icon is-small is-left"><i class="fas fa-person"></i></span>
+                    <!-- First name -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="firstName">First name</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input class="input" id="firstName" type="text" name="firstName"
+                                           value="<?= $firstName ?? '' ?>"/>
+                                    <span class="icon is-small is-left"><i class="fas fa-person"></i></span>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['firstName'] ?? '' ?>
+                                </p>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Last name -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="lastName">Last name</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input class="input" id="lastName" type="text" name="lastName"
+                                           value="<?= $lastName ?? '' ?>"/>
+                                    <span class="icon is-small is-left"><i class="fas fa-person"></i></span>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['lastName'] ?? '' ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="phone">Phone</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input class="input" id="phone" type="text" name="phone"
+                                           value="<?= $phone ?? '' ?>"/>
+                                    <span class="icon is-small is-left"><i class="fas fa-phone"></i></span>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['phone'] ?? '' ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="email">Email</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input class="input" id="email" type="text" name="email"
+                                           value="<?= $email ?? '' ?>"/>
+                                    <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['email'] ?? '' ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="password">Password</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input class="input" id="password" type="password" name="password"/>
+                                    <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['password'] ?? '' ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Role -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="staff">Rol</label>
+                        </div>
+                        <div class="field-body radios">
+                            <label class="radio">
+                                <input id="staff" type="radio" name="role" value="staff"/>
+                                Staff
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="role" value="admin"/>
+                                Admin
+                            </label>
                             <p class="help is-danger">
-                                <?= $errors['firstName'] ?? '' ?>
+                                <?= $errors['role'] ?? '' ?>
                             </p>
                         </div>
                     </div>
-                </div>
-
-                <!-- Last name -->
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label" for="lastName">Last name</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control has-icons-left">
-                                <input class="input" id="lastName" type="text" name="lastName"
-                                       value="<?= $lastName ?? '' ?>"/>
-                                <span class="icon is-small is-left"><i class="fas fa-person"></i></span>
-                            </div>
-                            <p class="help is-danger">
-                                <?= $errors['lastName'] ?? '' ?>
-                            </p>
+                    <!-- Submit -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal"></div>
+                        <div class="field-body">
+                            <button class="button is-link is-fullwidth" type="submit" name="submit">Register new user
+                            </button>
                         </div>
                     </div>
-                </div>
-
-                <!-- Phone -->
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label" for="phone">Phone</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control has-icons-left">
-                                <input class="input" id="phone" type="text" name="phone" value="<?= $phone ?? '' ?>"/>
-                                <span class="icon is-small is-left"><i class="fas fa-phone"></i></span>
-                            </div>
-                            <p class="help is-danger">
-                                <?= $errors['phone'] ?? '' ?>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Email -->
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label" for="email">Email</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control has-icons-left">
-                                <input class="input" id="email" type="text" name="email" value="<?= $email ?? '' ?>"/>
-                                <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
-                            </div>
-                            <p class="help is-danger">
-                                <?= $errors['email'] ?? '' ?>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Password -->
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label" for="password">Password</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control has-icons-left">
-                                <input class="input" id="password" type="password" name="password"/>
-                                <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
-                            </div>
-                            <p class="help is-danger">
-                                <?= $errors['password'] ?? '' ?>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Role -->
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label" for="role">Rol</label>
-                    </div>
-                    <div class="field-body radios">
-                        <label class="radio">
-                            <input type="radio" name="role" value="staff"/>
-                            Staff
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="role" value="admin"/>
-                            Admin
-                        </label>
-                        <p class="help is-danger">
-                            <?= $errors['password'] ?? '' ?>
-                        </p>
-                    </div>
-                </div>
-                <!-- Submit -->
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal"></div>
-                    <div class="field-body">
-                        <button class="button is-link is-fullwidth" type="submit" name="submit">Register new user</button>
-                    </div>
-                </div>
-
-            </form>
-        </section>
-
-    </div>
-</section>
+                </form>
+            </section>
+        </div>
+    </section>
+</main>
 </body>
 </html>
