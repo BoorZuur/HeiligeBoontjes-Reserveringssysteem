@@ -5,7 +5,7 @@ require_once '../../config.php';
 
 // this tells phpstorm that $db exists otherwise it will get mad at you
 /** @var mysqli $db */
-require_once (ROOT . 'includes/database.php');
+require_once(ROOT . 'includes/database.php');
 session_start();
 
 // check if employee is logged in
@@ -40,7 +40,7 @@ mysqli_close($db);
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../../css/bulma.css"/>
+    <link rel="stylesheet" href="/css/bulma.css"/>
     <title>Medewerkers | Heilige Boontjes</title>
 </head>
 <body>
@@ -49,6 +49,7 @@ mysqli_close($db);
         <div>
             <p class="title">Medewerkers</p>
             <p class="subtitle">Overzicht van alle medewerkers</p>
+            <a class="button" href="../index.php">&laquo; Ga terug naar reserveringen</a>
         </div>
         <div>
             <a class="button my-2" href="../../logout.php">Uitloggen</a>
@@ -87,9 +88,15 @@ mysqli_close($db);
                     <td><?= htmlentities($employee['first_name']) ?></td>
                     <td><?= htmlentities($employee['last_name']) ?></td>
                     <td><?= htmlentities($employee['email']) ?></td>
-                    <td class="has-background-link-dark"><a class="has-text-link" href="details.php?id=<?= $employee['id'] ?>">Details</a></td>
-                    <td class="has-background-warning-dark"><a class="has-text-warning" href="edit.php?id=<?= $employee['id'] ?>">Bewerken</a></td>
-                    <td class="has-background-danger-dark"><a class="has-text-danger" href="delete.php?id=<?= $employee['id'] ?>">Verwijderen</a></td>
+                    <td class="has-background-link-dark"><a class="has-text-link"
+                                                            href="details.php?id=<?= $employee['id'] ?>">Details</a>
+                    </td>
+                    <td class="has-background-warning-dark"><a class="has-text-warning"
+                                                               href="edit.php?id=<?= $employee['id'] ?>">Bewerken</a>
+                    </td>
+                    <td class="has-background-danger-dark"><a class="has-text-danger"
+                                                              href="delete.php?id=<?= $employee['id'] ?>">Verwijderen</a>
+                    </td>
                 </tr>
             <?php } ?>
             </tbody>

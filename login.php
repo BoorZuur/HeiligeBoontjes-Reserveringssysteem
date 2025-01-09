@@ -22,17 +22,17 @@ if (isset($_POST['submit'])) {
 
     // Server-side validation
     if (empty($email)) {
-        $errors['email'] = 'Email is required';
+        $errors['email'] = 'Email is vereist';
     }
     if (empty($password)) {
-        $errors['password'] = 'Password is required';
+        $errors['password'] = 'Password is vereist';
     }
 
     // If data valid
     if (empty($errors)) {
         // SELECT the user from the database, based on the email address.
 
-        $query = "SELECT * FROM users WHERE email = '$email'";
+        $query = "SELECT * FROM employees WHERE email = '$email'";
 
         $result = mysqli_query($db, $query)
         or die('Error ' . mysqli_error($db) . ' with query ' . $query);
@@ -56,12 +56,12 @@ if (isset($_POST['submit'])) {
             } else {
                 // Credentials not valid
                 //error incorrect log in
-                $errors['loginFailed'] = 'Credentials do not match';
+                $errors['loginFailed'] = 'Onjuiste email of wachtwoord';
             }
         } else {
             // User doesn't exist
             //error incorrect log in
-            $errors['loginFailed'] = 'Credentials do not match';
+            $errors['loginFailed'] = 'Onjuiste email of wachtwoord';
         }
     }
 }
@@ -74,7 +74,7 @@ if (isset($_POST['submit'])) {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./css/bulma.css"/>
-    <title>Log in</title>
+    <title>Log in | Heilige Boontjes</title>
 </head>
 <body>
 <section class="section">
@@ -82,7 +82,7 @@ if (isset($_POST['submit'])) {
             <h2 class="title">Log in</h2>
         <?php if ($login) { ?>
             <p>Je bent al ingelogd!</p>
-            <p><a href="logout.php">Uitloggen</a> / <a href="index.php">Naar home page</a></p>
+            <p><a href="logout.php">Uitloggen</a> / <a href="dashboard/index.php">Naar dashboard</a></p>
         <?php } else { ?>
             <section class="columns">
                 <form class="column is-6" action="" method="post">
@@ -107,7 +107,7 @@ if (isset($_POST['submit'])) {
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label" for="password">Password</label>
+                            <label class="label" for="password">Wachtwoord</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -133,7 +133,7 @@ if (isset($_POST['submit'])) {
                     <div class="field is-horizontal">
                         <div class="field-label is-normal"></div>
                         <div class="field-body">
-                            <button class="button is-primary is-fullwidth" type="submit" name="submit">Log in With Email
+                            <button class="button is-primary is-fullwidth" type="submit" name="submit">Inloggen
                             </button>
                         </div>
                     </div>
