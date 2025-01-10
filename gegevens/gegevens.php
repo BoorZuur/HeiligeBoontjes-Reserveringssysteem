@@ -1,3 +1,58 @@
+<?php
+    session_start();
+    $firstName = '';
+    $lastName = '';
+    $email = '';
+    $phone = '';
+    $allergy = '';
+    $foodCheck = 'No';
+    $preference = 'none';
+
+    if (isset($_POST['submit'])){
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $allergy = $_POST['allergy'];
+
+        if (isset($_POST['myCheck']) && $_POST['myCheck'] == "Yes"){
+            $foodCheck = "Yes";
+            $preference = $_POST['preference'];
+        }
+
+        $errors = [];
+
+        if ($firstName == ''){
+            $errors['emptyfirst'] = 'Voornaam mag niet leeg zijn';
+        }
+        if ($lastName == ''){
+            $errors['emptylast'] = 'Achternaam mag niet leeg zijn';
+        }
+        if ($email == ''){
+            $errors['emptyemail'] = 'E-mail mag niet leeg zijn';
+        }    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $errors['email'] = "E-mailadress is ongeldig";}
+        if ($phone == ''){
+            $errors['emptyphone'] = 'Telefoonnummer mag niet leeg zijn';
+        }elseif (strlen($phone)<9){
+            $errors['shortphone'] = 'Telefoonnummer moet minimaal 10 karakters zijn';
+        }elseif (strlen($phone)>15){
+            $errors['longphone'] = 'Telefoonnummer kan niet langer dan 15 karakters zijn';
+        }
+        if (empty($errors)){
+            $_SESSION['firstName'] = $firstName;
+            $_SESSION['lastName'] = $lastName;
+            $_SESSION['email'] = $email;
+            $_SESSION['phone'] = $phone;
+            $_SESSION['foodCheck'] = $foodCheck;
+            $_SESSION['allergy'] = $allergy;
+            $_SESSION['preference'] = $preference;
+            header('Location: confirm.php');
+        }
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,36 +79,53 @@
             <section class="contacts-h2">
                 <h2>Gegevens invoeren</h2>
             </section>
-            <form>
+            <form action="" method="POST">
                 <div class="name">
                     <div class="form-box">
-                        <label class="bold" for="name">Voornaam</label>
-                        <input type="text" name="name" id="name" placeholder="Voornaam" required class="input-box">
+                        <label class="bold" for="firstName">Voornaam</label>
+                        <input type="text" name="firstName" id="firstName" placeholder="Voornaam" value="<?= htmlentities($firstName) ?>" class="input-box">
+                        <p class="error">
+                            <?= $errors['emptyfirst'] ?? '' ?>
+                        </p>
                     </div>
 
                     <div class="form-box">
-                        <label class="bold" for="name">Achternaam</label>
-                        <input type="text" name="name" id="name" placeholder="Achternaam" required class="input-box">
+                        <label class="bold" for="lastName">Achternaam</label>
+                        <input type="text" name="lastName" id="lastName" placeholder="Achternaam" value="<?= htmlentities($lastName) ?>" class="input-box">
+                        <p class="error">
+                            <?= $errors['emptylast'] ?? '' ?>
+                        </p>
                     </div>
                 </div>
+
+                <div class="name">
                 <div class="form-box">
                     <label class="bold" for="email">E-mail</label>
-                    <input type="email" name="email" id="email" placeholder="E-mail" required class="input-long">
-                </div>
-                <div class="time">
-                <div class="form-box">
-                    <label class="bold" for="van">van</label>
-                    <input type="time" name="van" id="van" required min="9:00" max="18:00" class="input-box">
-                </div>
+                    <input type="email" name="email" id="email" placeholder="E-mail" value="<?= htmlentities($email) ?>" class="input-box">
+                    <p class="error">
+                        <?= $errors['emptyemail'] ?? '' ?>
+                    </p>
 
+                    <p class="error">
+                        <?= $errors['email'] ?? '' ?>
+                    </p>
+                </div>
                     <div class="form-box">
-                        <label class="bold" for="tot">tot</label>
-                        <input type="time" name="tot" id="tot" required class="input-box">
+                    <label class="bold" for="phone">Telefoonnummer</label>
+                    <input type="text" name="phone" id="phone" value="<?= htmlentities($phone) ?>" class="input-box">
+                    <p class="error">
+                        <?= $errors['emptyphone'] ?? '' ?>
+                    </p>
+                        <p class="error">
+                            <?= $errors['shortphone'] ?? '' ?>
+                        </p>
+                        <p class="error">
+                            <?= $errors['longphone'] ?? '' ?>
+                        </p>
                     </div>
                 </div>
-
                 <div id="eten">
-                    <input type="checkbox" id="myCheck" onclick="myFunction()" name="myCheck" required>
+                    <input type="checkbox" id="myCheck" onclick="myFunction()" name="myCheck" value="Yes">
                     <label for="myCheck">Bent u van plan om bij ons te eten?</label>
                 </div>
 
@@ -61,7 +133,7 @@
                     function myFunction() {
                         var checkBox = document.getElementById("myCheck");
                         var text = document.getElementById("text");
-                        if (checkBox.checked == true){
+                        if (checkBox.checked == true) {
                             text.style.display = "block";
                         } else {
                             text.style.display = "none";
@@ -83,20 +155,26 @@
                         <input type="radio" id="Vegatarisch" name="preference" value="Vegatarisch">
                         <label for="Vegatarisch">Vegatarisch</label>
                     </div>
+                    <div>
+                        <input type="radio" id="none" name="preference" value="Geen voorkeuren" checked>
+                        <label for="none">Geen voorkeur</label>
+                    </div>
                 </div>
                     <br>
                     <div class="form-box">
                         <label class="bold" for="allergy">Heeft u nog allergiën waar wij rekening mee moeten houden?</label>
-                        <input type="text" name="allergy" id="allergy" placeholder="Allergiën" required class="input-box">
+                        <input type="text" name="allergy" id="allergy" value="<?= htmlentities($allergy) ?>" class="input-box">
                     </div>
             </div>
-                <button type="submit">Verzenden</button>
+                <button type="submit" name="submit">Verzenden</button>
+            </form>
+
         </div>
-        </form>
     </section>
 </main>
 
 <footer>
+    <hr width="100%" size="30" color="#b97c42">
     <div class="footer-box">
         <div class="footer-extra">
             <h4>Eendrachtsplein</h4>
@@ -119,17 +197,17 @@
         </div>
         <div class="footer-extra">
             <h4>Wil je ons supporten</h4>
-            <a href="https://www.heiligeboontjes.com/doneren/" class="small-button">Doneren</a>
+            <a target="_blank" href="https://www.heiligeboontjes.com/doneren/" class="small-button">Doneren</a>
         </div>
         <div class="footer-extra">
             <h4>Klantenservice</h4>
-            <a href="https://www.heiligeboontjes.com/verzending-retournering/" class="link">Verzendingen & reserveringen</a>
-            <a href="https://www.heiligeboontjes.com/algemene-voorwaarden/" class="link">Algemene voorwaarden</a>
-            <a href="https://www.heiligeboontjes.com/prestatieladder-socialer-ondernemen/"><img class="pso" src="images/PSO123.png" alt="pso123"></a>
+            <a target="_blank" href="https://www.heiligeboontjes.com/verzending-retournering/" class="link">Verzendingen & reserveringen</a>
+            <a target="_blank" href="https://www.heiligeboontjes.com/algemene-voorwaarden/" class="link">Algemene voorwaarden</a>
+            <a target="_blank" href="https://www.heiligeboontjes.com/prestatieladder-socialer-ondernemen/"><img class="pso" src="images/PSO123.png" alt="pso123"></a>
         </div>
         <div class="footer-extra">
             <h4>Penthouse prison</h4>
-            <a href="https://www.heiligeboontjes.com/penthouse-prison/" class="link"><img class="pso" src="images/airbnb.png" alt="airbnb"></a>
+            <a target="_blank" href="https://www.heiligeboontjes.com/penthouse-prison/" class="link"><img class="pso" src="images/airbnb.png" alt="airbnb"></a>
         </div>
 
     </div>
