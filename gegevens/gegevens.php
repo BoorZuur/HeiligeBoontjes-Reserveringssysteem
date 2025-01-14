@@ -1,5 +1,6 @@
 <?php
     session_start();
+    global $db;
     $firstName = '';
     $lastName = '';
     $email = '';

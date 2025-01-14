@@ -1,7 +1,3 @@
-<?php
-session_start();
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,23 +19,70 @@ session_start();
 </header>
 
 <main>
-    <section class="center-container">
-        <p> <b>Gegevens</b><br>
-            Voornaam: <?= $_SESSION['firstName'];?><br>
-            Achternaam: <?= $_SESSION['lastName'];?><br>
-            E-mail: <?= $_SESSION['email'];?><br>
-            Telefoonnummer: <?= $_SESSION['phone'] ?>
-        </p>
-        <?php
-        if ($_SESSION['foodCheck'] == 'Yes'){
-        ?>
-        <p>
-            <b>Eten</b><br>
-            <?= $_SESSION['preference'] ?? ''?><br>
-            <?= $_SESSION['allergy'] ?? ''?>
-        </p>
-        <?}?>
+    <section>
+        <div class="center-container">
+            <section class="contacts-h2">
+                <h2>Gegevens invoeren</h2>
+            </section>
+            <div class="slideshow-container">
+                <div class="mySlides fade">
+                    <div class="numbertext">1 / 3</div>
+                    <img src="images/Blueprints-14.png" style="width:100%">
+                    <div class="text">Caption Text</div>
+                </div>
 
+                <div class="mySlides fade">
+                    <div class="numbertext">2 / 3</div>
+                    <img src="images/Blueprints-13.png" style="width:100%">
+                    <div class="text">Caption Two</div>
+                </div>
+
+                <div class="mySlides fade">
+                    <div class="numbertext">3 / 3</div>
+                    <img src="images/Blueprints-12.png" style="width:100%">
+                    <div class="text">Caption Three</div>
+                </div>
+
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+            <br>
+            <script>
+                let slideIndex = 1;
+                showSlides(slideIndex);
+
+                // Next/previous controls
+                function plusSlides(n) {
+                    showSlides(slideIndex += n);
+                }
+
+                // Thumbnail image controls
+                function currentSlide(n) {
+                    showSlides(slideIndex = n);
+                }
+
+                function showSlides(n) {
+                    let i;
+                    let slides = document.getElementsByClassName("mySlides");
+                    let dots = document.getElementsByClassName("dot");
+                    if (n > slides.length) {slideIndex = 1}
+                    if (n < 1) {slideIndex = slides.length}
+                    for (i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";
+                    }
+                    for (i = 0; i < dots.length; i++) {
+                        dots[i].className = dots[i].className.replace(" active", "");
+                    }
+                    slides[slideIndex-1].style.display = "block";
+                    dots[slideIndex-1].className += " active";
+                }
+            </script>
+            <div style="text-align:center">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
     </section>
 </main>
 
