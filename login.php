@@ -7,10 +7,14 @@ require_once 'includes/database.php';
 session_start();
 
 $login = false;
+$loggedInText = 'Log In';
+$loggedInLink = 'login.php';
 
 // check if Is user logged in?
 if (isset($_SESSION['login'])) {
     $login = true;
+    $loggedInText = 'Dashboard';
+    $loggedInLink = 'dashboard/index.php';
 }
 
 if (isset($_POST['submit'])) {
@@ -77,9 +81,58 @@ if (isset($_POST['submit'])) {
     <title>Log in | Heilige Boontjes</title>
 </head>
 <body>
+<nav class="navbar is-primary">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/index.php">
+            <figure class="image is-640x160">
+                <img src="/images/logo.svg" alt="logo"/>
+            </figure>
+        </a>
+        <div class="navbar-burger js-burger" data-target="navMenuColorprimary">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div id="navMenuColorprimary" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="https://www.heiligeboontjes.com/webshop/"> Webshop </a>
+            <div class="navbar-item has-dropdown">
+                <a class="navbar-link"> Grand Cafe </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="https://bulma.io/documentation/overview/start/"> Info </a>
+                    <a class="navbar-item" href="https://bulma.io/documentation/overview/modifiers/"> Menu </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item is-active" href="https://bulma.io/documentation/columns/basics/">
+                        Reserveren </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="field is-grouped">
+                    <p class="control">
+                        <a class="button is-primary is-soft" href="/reserveren/index.php">
+                            <span>Reserveren</span>
+                        </a>
+                    </p>
+                    <p class="control">
+                        <a class="button is-primary is-light"
+                           href="<?= $loggedInLink ?>">
+                            <span><?= $loggedInText ?></span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
 <section class="section">
     <div class="container content">
-            <h2 class="title">Log in</h2>
+        <h2 class="title">Log in</h2>
         <?php if ($login) { ?>
             <p>Je bent al ingelogd!</p>
             <p><a href="logout.php">Uitloggen</a> / <a href="dashboard/index.php">Naar dashboard</a></p>
