@@ -14,76 +14,112 @@
 <header class="h-contacts">
     <h1>Reservering</h1>
     <p>
-        Vul uw gegevens onderin in om
+        Bekijk hieronder onze plattegrond en selecteer vervolgens een tafel waarbij u wilt dineren.
     </p>
 </header>
-
 <main>
-    <section>
-        <div class="center-container">
-            <section class="contacts-h2">
-                <h2>Gegevens invoeren</h2>
-            </section>
-            <div class="slideshow-container">
-                <div class="mySlides fade">
-                    <div class="numbertext">1 / 3</div>
-                    <img src="images/Blueprints-14.png" style="width:100%">
-                    <div class="text">Caption Text</div>
-                </div>
-
-                <div class="mySlides fade">
-                    <div class="numbertext">2 / 3</div>
-                    <img src="images/Blueprints-13.png" style="width:100%">
-                    <div class="text">Caption Two</div>
-                </div>
-
-                <div class="mySlides fade">
-                    <div class="numbertext">3 / 3</div>
-                    <img src="images/Blueprints-12.png" style="width:100%">
-                    <div class="text">Caption Three</div>
-                </div>
-
-                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                <a class="next" onclick="plusSlides(1)">&#10095;</a>
-            </div>
-            <br>
-            <script>
-                let slideIndex = 1;
-                showSlides(slideIndex);
-
-                // Next/previous controls
-                function plusSlides(n) {
-                    showSlides(slideIndex += n);
-                }
-
-                // Thumbnail image controls
-                function currentSlide(n) {
-                    showSlides(slideIndex = n);
-                }
-
-                function showSlides(n) {
-                    let i;
-                    let slides = document.getElementsByClassName("mySlides");
-                    let dots = document.getElementsByClassName("dot");
-                    if (n > slides.length) {slideIndex = 1}
-                    if (n < 1) {slideIndex = slides.length}
-                    for (i = 0; i < slides.length; i++) {
-                        slides[i].style.display = "none";
-                    }
-                    for (i = 0; i < dots.length; i++) {
-                        dots[i].className = dots[i].className.replace(" active", "");
-                    }
-                    slides[slideIndex-1].style.display = "block";
-                    dots[slideIndex-1].className += " active";
-                }
-            </script>
-            <div style="text-align:center">
-                <span class="dot" onclick="currentSlide(1)"></span>
-                <span class="dot" onclick="currentSlide(2)"></span>
-                <span class="dot" onclick="currentSlide(3)"></span>
-            </div>
+    <section class="center-container">
+        <h3>Selecteer waar u wilt zitten</h3>
+    <form action="gegevens.php" method="post">
+    <div class="category-box">
+        <div>
+            <input type="radio" id="Restaurant" name="place" value="Restaurant" checked>
+            <label for="Restaurant">Restaurant</label>
         </div>
+        <div>
+            <input type="radio" id="Laptop" name="place" value="Laptop corner">
+            <label for="Laptop">Laptop corner</label>
+        </div>
+        <div>
+            <input type="radio" id="Terras" name="place" value="Terras">
+            <label for="Terras">Terras</label>
+        </div>
+    </div>
+        <div>
+            <label for="send-to" class="bold">Voor hoeveel mensen wilt u reserveren?</label>
+            <select name="send-to" id="send-to" class="input-box">
+                <option selected value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+            </select>
+        </div>
+        <button type="submit" name="next">Volgende stap</button>
+    </form>
     </section>
+<!--<header class="h-contacts">-->
+<!--    <h1>Reservering</h1>-->
+<!--    <p>-->
+<!--        Bekijk hieronder onze plattegrond en selecteer vervolgens een tafel waarbij u wilt dineren.-->
+<!--    </p>-->
+<!--</header>-->
+<!---->
+<!--<main>-->
+<!--    <section>-->
+<!--        <div class="center-container">-->
+<!--            <div class="slideshow-container">-->
+<!--                <div class="mySlides fade">-->
+<!--                    <h2>Restaurant</h2>-->
+<!--                    <img src="images/Blueprints-13.png" style="width:100%">-->
+<!--                </div>-->
+<!---->
+<!--                <div class="mySlides fade">-->
+<!--                    <h2>Laptop corner</h2>-->
+<!--                    <img src="images/Blueprint-14.png" style="width:100%">-->
+<!--                </div>-->
+<!---->
+<!--                <div class="mySlides fade">-->
+<!--                    <h2>Terras</h2>-->
+<!--                    <p class="warning">Pas op, tijdens winter, herfst of hevige regen is er kans dat het terras gesloten is</p>-->
+<!--                    <img src="images/Blueprints-12.png" style="width:100%">-->
+<!--                </div>-->
+<!---->
+<!--                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>-->
+<!--                <a class="next" onclick="plusSlides(1)">&#10095;</a>-->
+<!--            </div>-->
+<!--            <br>-->
+<!--            <script>-->
+<!--                let slideIndex = 1;-->
+<!--                showSlides(slideIndex);-->
+<!---->
+<!--                // Next/previous controls-->
+<!--                function plusSlides(n) {-->
+<!--                    showSlides(slideIndex += n);-->
+<!--                }-->
+<!---->
+<!--                // Thumbnail image controls-->
+<!--                function currentSlide(n) {-->
+<!--                    showSlides(slideIndex = n);-->
+<!--                }-->
+<!---->
+<!--                function showSlides(n) {-->
+<!--                    let i;-->
+<!--                    let slides = document.getElementsByClassName("mySlides");-->
+<!--                    let dots = document.getElementsByClassName("dot");-->
+<!--                    if (n > slides.length) {slideIndex = 1}-->
+<!--                    if (n < 1) {slideIndex = slides.length}-->
+<!--                    for (i = 0; i < slides.length; i++) {-->
+<!--                        slides[i].style.display = "none";-->
+<!--                    }-->
+<!--                    for (i = 0; i < dots.length; i++) {-->
+<!--                        dots[i].className = dots[i].className.replace(" active", "");-->
+<!--                    }-->
+<!--                    slides[slideIndex-1].style.display = "block";-->
+<!--                    dots[slideIndex-1].className += " active";-->
+<!--                }-->
+<!--            </script>-->
+<!--            <div style="text-align:center">-->
+<!--                <span class="dot" onclick="currentSlide(1)"></span>-->
+<!--                <span class="dot" onclick="currentSlide(2)"></span>-->
+<!--                <span class="dot" onclick="currentSlide(3)"></span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
 </main>
 
 <footer>

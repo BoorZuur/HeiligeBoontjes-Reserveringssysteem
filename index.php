@@ -96,6 +96,14 @@ if (isset($_SESSION['login'])) {
                 trek in hebt. Als het op onze kaart staat, natuurlijk. Maar da’s logisch. Dus doe waar je zin in hebt.
                 Doen wij dat ook!</p>
             <p><em>* Het Rotterdamse woord voor iets in je gezicht stoppen</em></p>
+            <h1 class="title">Reserveren bij ons</h1>
+            <h2 class="subtitle is-3">Restaurant</h2>
+            <p>Wil je op het terras, restaurant of in de laptop corner een plekje reserveren?
+                Maak nu lekker simpel een reservatie bij ons.
+            </p>
+            <h2 class="subtitle is-3">Lounge</h2>
+            <p>Wil je met een groter groepje komen eten, of heb je een ruimte nodig voor
+                een vergadering of presentatie? Boek onze lounge kamer!</p>
             <div class="section columns is-centered">
                 <div class="column is-narrow">
                     <a class="button is-info"
@@ -104,7 +112,11 @@ if (isset($_SESSION['login'])) {
                 </div>
                 <div class="column is-narrow">
                     <a class="button is-link"
-                       href="/reserveren/index.php">Reserveer een plekje</a>
+                       href="/reserveren/index.php">Reserveer restaurant</a>
+                </div>
+                <div class="column is-narrow">
+                    <a class="button is-link"
+                       href="/reserveren/index.php">Reserveer </a>
                 </div>
             </div>
         </div>

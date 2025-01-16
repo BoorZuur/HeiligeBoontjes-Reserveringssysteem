@@ -1,60 +1,56 @@
 <?php
-    session_start();
-    global $db;
-    $firstName = '';
-    $lastName = '';
-    $email = '';
-    $phone = '';
-    $allergy = '';
-    $people = $_POST['send-to'];
-    $location = $_POST['place'];
-    $foodCheck = 'No';
-    $preference = 'none';
+session_start();
+global $db;
+$firstName = '';
+$lastName = '';
+$email = '';
+$phone = '';
+$allergy = '';
+$foodCheck = 'No';
+$preference = 'none';
 
-    if (isset($_POST['submit'])){
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $allergy = $_POST['allergy'];
+if (isset($_POST['submit'])){
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $allergy = $_POST['allergy'];
 
-        if (isset($_POST['myCheck']) && $_POST['myCheck'] == "Yes"){
-            $foodCheck = "Yes";
-            $preference = $_POST['preference'];
-        }
-
-        $errors = [];
-
-        if ($firstName == ''){
-            $errors['emptyfirst'] = 'Voornaam mag niet leeg zijn';
-        }
-        if ($lastName == ''){
-            $errors['emptylast'] = 'Achternaam mag niet leeg zijn';
-        }
-        if ($email == ''){
-            $errors['emptyemail'] = 'E-mail mag niet leeg zijn';
-        }    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $errors['email'] = "E-mailadress is ongeldig";}
-        if ($phone == ''){
-            $errors['emptyphone'] = 'Telefoonnummer mag niet leeg zijn';
-        }elseif (strlen($phone)<9){
-            $errors['shortphone'] = 'Telefoonnummer moet minimaal 10 karakters zijn';
-        }elseif (strlen($phone)>15){
-            $errors['longphone'] = 'Telefoonnummer kan niet langer dan 15 karakters zijn';
-        }
-        if (empty($errors)){
-            $_SESSION['firstName'] = $firstName;
-            $_SESSION['lastName'] = $lastName;
-            $_SESSION['email'] = $email;
-            $_SESSION['phone'] = $phone;
-            $_SESSION['foodCheck'] = $foodCheck;
-            $_SESSION['allergy'] = $allergy;
-            $_SESSION['preference'] = $preference;
-            $_SESSION['people'] = $people;
-            $_SESSION['location'] = $location;
-            header('Location: confirm.php');
-        }
+    if (isset($_POST['myCheck']) && $_POST['myCheck'] == "Yes"){
+        $foodCheck = "Yes";
+        $preference = $_POST['preference'];
     }
+
+    $errors = [];
+
+    if ($firstName == ''){
+        $errors['emptyfirst'] = 'Voornaam mag niet leeg zijn';
+    }
+    if ($lastName == ''){
+        $errors['emptylast'] = 'Achternaam mag niet leeg zijn';
+    }
+    if ($email == ''){
+        $errors['emptyemail'] = 'E-mail mag niet leeg zijn';
+    }    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        $errors['email'] = "E-mailadress is ongeldig";}
+    if ($phone == ''){
+        $errors['emptyphone'] = 'Telefoonnummer mag niet leeg zijn';
+    }elseif (strlen($phone)<9){
+        $errors['shortphone'] = 'Telefoonnummer moet minimaal 10 karakters zijn';
+    }elseif (strlen($phone)>15){
+        $errors['longphone'] = 'Telefoonnummer kan niet langer dan 15 karakters zijn';
+    }
+    if (empty($errors)){
+        $_SESSION['firstName'] = $firstName;
+        $_SESSION['lastName'] = $lastName;
+        $_SESSION['email'] = $email;
+        $_SESSION['phone'] = $phone;
+        $_SESSION['foodCheck'] = $foodCheck;
+        $_SESSION['allergy'] = $allergy;
+        $_SESSION['preference'] = $preference;
+        header('Location: confirm.php');
+    }
+}
 
 ?>
 
@@ -76,10 +72,6 @@
     <p>
         Vul uw gegevens onderin in om
     </p>
-    <?
-    echo $location;
-    echo $people;
-    ?>
 </header>
 
 <main>
@@ -108,23 +100,23 @@
                 </div>
 
                 <div class="name">
-                <div class="form-box">
-                    <label class="bold" for="email">E-mail</label>
-                    <input type="email" name="email" id="email" placeholder="E-mail" value="<?= htmlentities($email) ?>" class="input-box">
-                    <p class="error">
-                        <?= $errors['emptyemail'] ?? '' ?>
-                    </p>
-
-                    <p class="error">
-                        <?= $errors['email'] ?? '' ?>
-                    </p>
-                </div>
                     <div class="form-box">
-                    <label class="bold" for="phone">Telefoonnummer</label>
-                    <input type="text" name="phone" id="phone" value="<?= htmlentities($phone) ?>" class="input-box">
-                    <p class="error">
-                        <?= $errors['emptyphone'] ?? '' ?>
-                    </p>
+                        <label class="bold" for="email">E-mail</label>
+                        <input type="email" name="email" id="email" placeholder="E-mail" value="<?= htmlentities($email) ?>" class="input-box">
+                        <p class="error">
+                            <?= $errors['emptyemail'] ?? '' ?>
+                        </p>
+
+                        <p class="error">
+                            <?= $errors['email'] ?? '' ?>
+                        </p>
+                    </div>
+                    <div class="form-box">
+                        <label class="bold" for="phone">Telefoonnummer</label>
+                        <input type="text" name="phone" id="phone" value="<?= htmlentities($phone) ?>" class="input-box">
+                        <p class="error">
+                            <?= $errors['emptyphone'] ?? '' ?>
+                        </p>
                         <p class="error">
                             <?= $errors['shortphone'] ?? '' ?>
                         </p>
@@ -132,6 +124,16 @@
                             <?= $errors['longphone'] ?? '' ?>
                         </p>
                     </div>
+                </div>
+                <div class="form-box">
+                    <label for="send-to" class="bold">Waarvoor wilt u de lounge gebruiken?</label>
+                    <select name="send-to" id="send-to">
+                        <option value="" disabled selected>Kies een gebruik</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="meet">Vergadering</option>
+                        <option value="presentation">Presentatie</option>
+                        <option value="session">Inspiratie sessie</option>
+                    </select>
                 </div>
                 <div id="eten">
                     <input type="checkbox" id="myCheck" onclick="myFunction()" name="myCheck" value="Yes">
@@ -149,32 +151,48 @@
                         }
                     }
                 </script>
-            <div id="text" style="display:none">
-                <label class="bold" for="preference">Wilt u uw eten halal, vegan of vegatarisch?</label>
-                <div class="category-box">
-                    <div>
-                        <input type="radio" id="Halal" name="preference" value="Halal">
-                        <label for="Halal">Halal</label>
+                <div id="text" style="display:none">
+                    <label class="bold" for="lunch">Welk lunch menu zou u willen hebben</label>
+                    <div class="category-box">
+                        <div>
+                            <input type="radio" id="A" name="lunch" value="A" checked>
+                            <label for="A">Lunch A</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="B" name="lunch" value="B">
+                            <label for="B">Lunch B</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="C" name="lunch" value="C">
+                            <label for="C">Lunch C</label>
+                        </div>
                     </div>
-                    <div>
-                        <input type="radio" id="Vegan" name="preference" value="Vegan">
-                        <label for="Vegan">Vegan</label>
+                    <br>
+                    <label class="bold" for="preference">Wilt u uw eten halal, vegan of vegatarisch?</label>
+                    <div class="category-box">
+                        <div>
+                            <input type="radio" id="Halal" name="preference" value="Halal">
+                            <label for="Halal">Halal</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="Vegan" name="preference" value="Vegan">
+                            <label for="Vegan">Vegan</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="Vegatarisch" name="preference" value="Vegatarisch">
+                            <label for="Vegatarisch">Vegatarisch</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="none" name="preference" value="Geen voorkeuren" checked>
+                            <label for="none">Geen voorkeur</label>
+                        </div>
                     </div>
-                    <div>
-                        <input type="radio" id="Vegatarisch" name="preference" value="Vegatarisch">
-                        <label for="Vegatarisch">Vegatarisch</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="none" name="preference" value="Geen voorkeuren" checked>
-                        <label for="none">Geen voorkeur</label>
-                    </div>
-                </div>
                     <br>
                     <div class="form-box">
                         <label class="bold" for="allergy">Heeft u nog allergiën waar wij rekening mee moeten houden?</label>
                         <input type="text" name="allergy" id="allergy" value="<?= htmlentities($allergy) ?>" class="input-box">
                     </div>
-            </div>
+                </div>
                 <button type="submit" name="submit">Verzenden</button>
             </form>
 

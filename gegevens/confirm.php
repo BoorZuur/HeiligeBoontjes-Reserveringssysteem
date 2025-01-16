@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once '../includes/database.php'
 
 ?>
 <!DOCTYPE html>
@@ -29,6 +30,8 @@ session_start();
             Achternaam: <?= $_SESSION['lastName'];?><br>
             E-mail: <?= $_SESSION['email'];?><br>
             Telefoonnummer: <?= $_SESSION['phone'] ?>
+            zitplaats:
+            mensen:
         </p>
         <?php
         if ($_SESSION['foodCheck'] == 'Yes'){
@@ -39,7 +42,7 @@ session_start();
             <?= $_SESSION['allergy'] ?? ''?>
         </p>
         <?}?>
-
+        <button type="submit" name="submit">confirm</button>
     </section>
 </main>
 
