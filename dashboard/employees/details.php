@@ -27,12 +27,12 @@ $id = mysqli_escape_string($db, $_GET['id']);
 $teams = [];
 
 // get club info
-$query = "SELECT * FROM users WHERE id = $id";
+$query = "SELECT * FROM employees WHERE id = $id";
 
 $result = mysqli_query($db, $query)
 or die('Error ' . mysqli_error($db) . ' with query ' . $query);
 
-$user = mysqli_fetch_assoc($result);
+$employee = mysqli_fetch_assoc($result);
 mysqli_close($db);
 
 if (mysqli_num_rows($result) != 1) {
@@ -47,7 +47,7 @@ if (mysqli_num_rows($result) != 1) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Details - Users | Heilige Bonen</title>
+    <title>Details - Medewerkers | Heilige Bonen</title>
     <link rel="stylesheet" href="../../css/bulma.css">
 </head>
 <body>
@@ -55,12 +55,13 @@ if (mysqli_num_rows($result) != 1) {
 <header class="hero is-primary">
     <div class="hero-body is-flex is-justify-content-space-between">
         <div>
-            <p class="title">Users > Details</p>
-            <p class="subtitle"><?= htmlentities($user['first_name'] . ' ' . $user['last_name']) ?></p>
+            <p class="title">Medewerkers > Details</p>
+            <p class="subtitle"><?= htmlentities($employee['first_name'] . ' ' . $employee['last_name']) ?></p>
+            <a class="button" href="index.php">&laquo; Ga terug</a>
         </div>
         <div>
-            <a class="button my-2" href="../../logout.php">Logout</a>
-            <p class="subtitle"> Hello, <?= htmlentities($_SESSION['first_name']) ?></p>
+            <a class="button my-2" href="../../logout.php">Uitloggen</a>
+            <p class="subtitle"> Hallo, <?= htmlentities($_SESSION['first_name']) ?></p>
         </div>
     </div>
 </header>
@@ -68,11 +69,10 @@ if (mysqli_num_rows($result) != 1) {
 <main class="container">
     <section class="section content">
         <ul>
-            <li>Telefoonnummer: <?= htmlentities($user['phone']) ?></li>
-            <li>Email: <?= htmlentities($user['email']) ?></li>
-            <li>Rol: <?= htmlentities($user['role']) ?></li>
+            <li>Telefoonnummer: <?= htmlentities($employee['phone']) ?></li>
+            <li>Email: <?= htmlentities($employee['email']) ?></li>
+            <li>Rol: <?= htmlentities($employee['role']) ?></li>
         </ul>
-        <a class="button" href="index.php">&laquo; Go back to the list</a>
     </section>
 </main>
 </body>

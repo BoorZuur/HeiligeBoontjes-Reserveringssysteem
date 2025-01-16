@@ -7,10 +7,14 @@ require_once 'includes/database.php';
 session_start();
 
 $login = false;
+$loggedInText = 'Log In';
+$loggedInLink = 'login.php';
 
 // check if Is user logged in?
 if (isset($_SESSION['login'])) {
     $login = true;
+    $loggedInText = 'Dashboard';
+    $loggedInLink = 'dashboard/index.php';
 }
 
 if (isset($_POST['submit'])) {
@@ -22,17 +26,17 @@ if (isset($_POST['submit'])) {
 
     // Server-side validation
     if (empty($email)) {
-        $errors['email'] = 'Email is required';
+        $errors['email'] = 'Email is vereist';
     }
     if (empty($password)) {
-        $errors['password'] = 'Password is required';
+        $errors['password'] = 'Password is vereist';
     }
 
     // If data valid
     if (empty($errors)) {
         // SELECT the user from the database, based on the email address.
 
-        $query = "SELECT * FROM users WHERE email = '$email'";
+        $query = "SELECT * FROM employees WHERE email = '$email'";
 
         $result = mysqli_query($db, $query)
         or die('Error ' . mysqli_error($db) . ' with query ' . $query);
@@ -56,12 +60,12 @@ if (isset($_POST['submit'])) {
             } else {
                 // Credentials not valid
                 //error incorrect log in
-                $errors['loginFailed'] = 'Credentials do not match';
+                $errors['loginFailed'] = 'Onjuiste email of wachtwoord';
             }
         } else {
             // User doesn't exist
             //error incorrect log in
-            $errors['loginFailed'] = 'Credentials do not match';
+            $errors['loginFailed'] = 'Onjuiste email of wachtwoord';
         }
     }
 }
@@ -74,15 +78,64 @@ if (isset($_POST['submit'])) {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./css/bulma.css"/>
-    <title>Log in</title>
+    <title>Log in | Heilige Boontjes</title>
 </head>
 <body>
+<nav class="navbar is-primary">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/index.php">
+            <figure class="image is-640x160">
+                <img src="/images/logo.svg" alt="logo"/>
+            </figure>
+        </a>
+        <div class="navbar-burger js-burger" data-target="navMenuColorprimary">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div id="navMenuColorprimary" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="https://www.heiligeboontjes.com/webshop/"> Webshop </a>
+            <div class="navbar-item has-dropdown">
+                <a class="navbar-link"> Grand Cafe </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="https://bulma.io/documentation/overview/start/"> Info </a>
+                    <a class="navbar-item" href="https://bulma.io/documentation/overview/modifiers/"> Menu </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item is-active" href="https://bulma.io/documentation/columns/basics/">
+                        Reserveren </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="field is-grouped">
+                    <p class="control">
+                        <a class="button is-primary is-soft" href="/reserveren/index.php">
+                            <span>Reserveren</span>
+                        </a>
+                    </p>
+                    <p class="control">
+                        <a class="button is-primary is-light"
+                           href="<?= $loggedInLink ?>">
+                            <span><?= $loggedInText ?></span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
 <section class="section">
     <div class="container content">
-            <h2 class="title">Log in</h2>
+        <h2 class="title">Log in</h2>
         <?php if ($login) { ?>
             <p>Je bent al ingelogd!</p>
-            <p><a href="logout.php">Uitloggen</a> / <a href="index.php">Naar home page</a></p>
+            <p><a href="logout.php">Uitloggen</a> / <a href="dashboard/index.php">Naar dashboard</a></p>
         <?php } else { ?>
             <section class="columns">
                 <form class="column is-6" action="" method="post">
@@ -107,7 +160,7 @@ if (isset($_POST['submit'])) {
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label" for="password">Password</label>
+                            <label class="label" for="password">Wachtwoord</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -133,7 +186,7 @@ if (isset($_POST['submit'])) {
                     <div class="field is-horizontal">
                         <div class="field-label is-normal"></div>
                         <div class="field-body">
-                            <button class="button is-primary is-fullwidth" type="submit" name="submit">Log in With Email
+                            <button class="button is-primary is-fullwidth" type="submit" name="submit">Inloggen
                             </button>
                         </div>
                     </div>
