@@ -11,10 +11,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-// voorbeeld
-sendReservationEmail('example@example.com', 'test', 'she pull on my git till I commit');
-
-function sendReservationEmail($to, $subject, $body): bool
+function sendEmail($to, $subject, $body): bool
 {
     //Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
@@ -26,7 +23,7 @@ function sendReservationEmail($to, $subject, $body): bool
         $mail->Host = 'smtp.strato.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth = true;                                   //Enable SMTP authentication
         $mail->Username = 'heiligeboontjes@tasit.nl';                     //SMTP username
-        $mail->Password = 'bHjcJ4ovNP73No';                               //SMTP password
+        $mail->Password = 'zm9*i%wF7xifvHvQ';                               //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
