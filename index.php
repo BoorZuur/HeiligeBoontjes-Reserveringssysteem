@@ -1,17 +1,7 @@
 <?php
+require_once 'config.php';
+
 session_start();
-
-$loggedIn = false;
-$loggedInText = 'Log In';
-$loggedInLink = 'login.php';
-
-// check if logged in
-if (isset($_SESSION['login'])) {
-    $loggedIn = true;
-    $loggedInText = 'Dashboard';
-    $loggedInLink = 'dashboard/index.php';
-}
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -21,59 +11,11 @@ if (isset($_SESSION['login'])) {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./css/bulma.css"/>
-    <script type="text/javascript" src="/js/navbar.js"></script>
+    <script type="text/javascript" src="./js/navbar.js"></script>
     <title>Reserveren | Heilige Boontjes</title>
 </head>
 <body>
-<nav class="navbar is-primary">
-    <div class="navbar-brand">
-        <a class="navbar-item" href="/index.php">
-            <figure class="image is-640x160">
-                <img src="/images/logo.svg" alt="logo"/>
-            </figure>
-        </a>
-        <div class="navbar-burger js-burger" data-target="navMenuColorprimary">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-
-    <div id="navMenuColorprimary" class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item" href="https://www.heiligeboontjes.com/webshop/"> Webshop </a>
-            <div class="navbar-item has-dropdown">
-                <a class="navbar-link"> Grand Cafe </a>
-                <div class="navbar-dropdown">
-                    <a class="navbar-item" href="https://bulma.io/documentation/overview/start/"> Info </a>
-                    <a class="navbar-item" href="https://bulma.io/documentation/overview/modifiers/"> Menu </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item is-active" href="https://bulma.io/documentation/columns/basics/">
-                        Reserveren </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="field is-grouped">
-                    <p class="control">
-                        <a class="button is-primary is-soft" href="/reserveren/index.php">
-                            <span>Reserveren</span>
-                        </a>
-                    </p>
-                    <p class="control">
-                        <a class="button is-primary is-light"
-                           href="<?= $loggedInLink ?>">
-                            <span><?= $loggedInText ?></span>
-                        </a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
+<?php require_once ROOT . 'includes/html/nav.php'; ?>
 <header class="container">
     <section class="section is-small">
         <figure class="image is-fullwidth">

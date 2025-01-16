@@ -1,6 +1,6 @@
 <?php
 // email sturings
-// gebruik de functie sendReservationEmail om emailings te sturen
+// gebruik de functie sendEmail om emailings te sturen
 require_once "email/PHPMailer.php";
 require_once "email/SMTP.php";
 require_once "email/Exception.php";
@@ -35,8 +35,8 @@ function sendEmail($to, $subject, $body): bool
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = $subject;
         $mail->Body = $body;
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
+        $mail->AltBody = 'https://www.heiligeboontjes.com';
+        $mail->AddEmbeddedImage('C:\Users\marti\Documents\Development\HeiligeBoontjes-Reserveringssysteem\includes\email\emaillogo.png', 'logo');
         $mail->send();
         echo 'Message has been sent';
         return true;
