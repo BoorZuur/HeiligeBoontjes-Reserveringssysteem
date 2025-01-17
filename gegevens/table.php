@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (isset($_POST['next'])){
+$_SESSION['people'] = $_POST['send-to'];
+$_SESSION['location'] = $_POST['place'];
+header('Location: gegevens.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +30,7 @@
 <main>
     <section class="center-container">
         <h3>Selecteer waar u wilt zitten</h3>
-    <form action="gegevens.php" method="post">
+    <form action="" method="post">
     <div class="category-box">
         <div>
             <input type="radio" id="Restaurant" name="place" value="Restaurant" checked>

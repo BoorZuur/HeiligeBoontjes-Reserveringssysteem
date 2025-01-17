@@ -29,9 +29,9 @@ require_once '../includes/database.php'
             Voornaam: <?= $_SESSION['firstName'];?><br>
             Achternaam: <?= $_SESSION['lastName'];?><br>
             E-mail: <?= $_SESSION['email'];?><br>
-            Telefoonnummer: <?= $_SESSION['phone'] ?>
-            zitplaats:
-            mensen:
+            Telefoonnummer: <?= $_SESSION['phone'] ?><br>
+            zitplaats: <?= $_SESSION['location']; ?><br>
+            mensen: <?= $_SESSION['people']; ?>
         </p>
         <?php
         if ($_SESSION['foodCheck'] == 'Yes'){

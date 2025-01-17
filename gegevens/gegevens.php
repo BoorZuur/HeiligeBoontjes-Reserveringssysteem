@@ -6,8 +6,8 @@
     $email = '';
     $phone = '';
     $allergy = '';
-    $people = $_POST['send-to'];
-    $location = $_POST['place'];
+    $people = $_SESSION['people'];
+    $location = $_SESSION['location'];
     $foodCheck = 'No';
     $preference = 'none';
 
@@ -76,10 +76,6 @@
     <p>
         Vul uw gegevens onderin in om
     </p>
-    <?
-    echo $location;
-    echo $people;
-    ?>
 </header>
 
 <main>
@@ -87,6 +83,12 @@
         <div class="center-container">
             <section class="contacts-h2">
                 <h2>Gegevens invoeren</h2>
+                <?=
+                $location;
+                ?>
+                <?=
+                $people;
+                ?>
             </section>
             <form action="" method="POST">
                 <div class="name">
