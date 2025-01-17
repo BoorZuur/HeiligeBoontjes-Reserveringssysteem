@@ -10,7 +10,7 @@ session_start();
 // check if employee is logged in
 if (!isset($_SESSION['login'])) {
     // Redirect if not logged in
-    header('Location: ../../login.php');
+    header('Location: /login.php');
     exit();
 }
 
@@ -38,20 +38,13 @@ mysqli_close($db);
     <title>Reserveringen | Heilige Boontjes</title>
 </head>
 <body>
+<?php require_once ROOT . 'includes/html/navDashboard.php'; ?>
 <header class="hero is-primary">
-    <div class="hero-body is-flex is-justify-content-space-between">
-        <div>
-            <p class="title">Reserveringen</p>
-            <p class="subtitle">Overzicht van alle reserveringen</p>
-            <a class="button" href="../index.php">&laquo; Ga terug naar de website</a>
-        </div>
-        <div>
-            <a class="button my-2" href="../logout.php">Uitloggen</a>
-            <p class="subtitle"> Hallo, <?= htmlentities($_SESSION['first_name']) ?></p>
-        </div>
+    <div class="hero-body has-text-centered">
+        <p class="title">Reserveringen</p>
+        <p class="subtitle">Overzicht van alle reserveringen</p>
     </div>
 </header>
-
 <main class="container">
     <section class="section">
         <div class="is-flex is-justify-content-center my-5">

@@ -1,5 +1,5 @@
 <?php
-require_once '../../config.php';
+require_once '../config.php';
 
 // this tells phpstorm that $db exists otherwise it will get mad at you
 /** @var mysqli $db */
@@ -12,11 +12,6 @@ if (!isset($_SESSION['login'])) {
     exit();
 }
 
-// check if user is admin
-if ($_SESSION['role'] !== 'admin') {
-    header('Location: ../reservations.php');
-}
-
 // check if id is set
 if (!isset($_GET['id']) || $_GET['id'] == "") {
     header('Location: index.php');
@@ -24,17 +19,16 @@ if (!isset($_GET['id']) || $_GET['id'] == "") {
 }
 
 $id = mysqli_escape_string($db, $_GET['id']);
-$role = '';
 $errors = [];
 
 // get player info from db
 if (!isset($_POST['submit'])) {
-    $query = "SELECT * FROM employees WHERE id = $id";
+    $query = "SELECT * FROM reservations WHERE id = $id";
 
     $result = mysqli_query($db, $query)
     or die('Error ' . mysqli_error($db) . ' with query ' . $query);
 
-    $employee = mysqli_fetch_assoc($result);
+    $reservation = mysqli_fetch_assoc($result);
     mysqli_close($db);
 
     if (mysqli_num_rows($result) != 1) {
@@ -42,88 +36,106 @@ if (!isset($_POST['submit'])) {
         exit();
     }
 
-    $first_name = $employee['first_name'];
-    $last_name = $employee['last_name'];
-    $phone = $employee['phone'];
-    $email = $employee['email'];
-    $role = $employee['role'];
+    $lastName = $reservation['last_name'];
+    $phone = $reservation['phone'];
+    $email = $reservation['email'];
+    $date = $reservation['date'];
+    $startTime = $reservation['start_time'];
+    $endTime = $reservation['end_time'];
+    $specialRequest = $reservation['special_request'];
+    $allergies = $reservation['allergies'];
 }
 
 // update db if form is sent
 if (isset($_POST['submit'])) {
     $id = mysqli_escape_string($db, $_POST['id']);
-    $first_name = mysqli_escape_string($db, $_POST['first_name']);
-    $last_name = mysqli_escape_string($db, $_POST['last_name']);
+    $lastName = mysqli_escape_string($db, $_POST['lastName']);
     $phone = mysqli_escape_string($db, $_POST['phone']);
     $email = mysqli_escape_string($db, $_POST['email']);
-    $role = mysqli_escape_string($db, $_POST['role']);
+    $date = mysqli_escape_string($db, $_POST['date']);
+    $startTime = mysqli_escape_string($db, $_POST['startTime']);
+    $endTime = mysqli_escape_string($db, $_POST['endTime']);
+    $specialRequest = mysqli_escape_string($db, $_POST['specialRequest']);
+    $allergies = mysqli_escape_string($db, $_POST['allergies']);
     $strippedPhone = str_replace('+', '', $phone);
     $strippedPhone = str_replace(' ', '', $strippedPhone);
 
+    print_r([$startTime, $endTime]);
+
     // validation
-    if (empty($first_name)) {
-        $errors['first_name'] = 'Voornaam is vereist';
-    }
-    if (empty($last_name)) {
-        $errors['last_name'] = 'Achternaam is vereist';
+    if (empty($lastName)) {
+        $errors['lastName'] = 'Achternaam is vereist';
     }
     if (empty($phone)) {
         $errors['phone'] = 'Telefoonnummer is vereist';
     } elseif (!is_numeric($strippedPhone)) {
         $errors['phone'] = 'Telefoonnummer moet een nummer zijn';
     } elseif (strlen($phone) < 10) {
-        $errors['phone'] = 'Telefoonnummer moet minstens 10 tekens';
+        $errors['phone'] = 'Telefoonnummer moet minstens 10 tekens zijn';
     }
     if (empty($email)) {
         $errors['email'] = 'Email is vereist';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = 'Ongeldige e-mailadres';
+        $errors['email'] = 'Ongeldige email';
     }
-    if (empty($role)) {
-        $errors['role'] = 'Rol is vereist';
-    } elseif (!in_array($role, ['admin', 'staff'])) {
-        $errors['role'] = 'Ongeldige rol';
+    if (!date_create_from_format('Y-m-d', $date)) {
+        $errors['date'] = 'Ongeldige datum';
     }
-    if (empty($id)) {
-        header('Location: index.php');
-        exit();
+    if (!date_create_from_format('H:i:s', $startTime)) {
+        $errors['startTime'] = 'Ongeldige tijd';
     }
+    if (!date_create_from_format('H:i:s', $endTime)) {
+        $errors['endTime'] = 'Ongeldige tijd';
+    }
+    if (!in_array($specialRequest, ['none', 'vegan', 'vegetarian', 'halal'])) {
+        $errors['specialRequest'] = 'Ongeldig verzoek';
+    }
+    if (empty($allergies)) {
+        $allergies = null;
+    }
+
 
     // db update
     if (empty($errors)) {
-        $query = "UPDATE employees SET first_name = '$first_name', last_name = '$last_name',
-                 phone = '$phone', email = '$email', role = '$role' WHERE id = $id";
+        // store the new user in the database.
+        $query = "INSERT INTO reservations (`table_id`, `last_name`, `phone`, `email`, `date`, `start_time`, `end_time`, `special_request`, `allergies`) 
+                  VALUES (1, '$lastName', '$phone', '$email', '$date', '$startTime', '$endTime', '$specialRequest', '$allergies')";
 
         $result = mysqli_query($db, $query)
         or die('Error ' . mysqli_error($db) . ' with query ' . $query);
 
         mysqli_close($db);
 
-        header('Location: index.php');
-        exit();
+        // If query succeeded
+        if ($result) {
+            // Redirect to login page
+            header('Location: index.php');
+            // Exit the code
+            exit();
+        }
     }
 }
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../../css/bulma.css"/>
-    <title>Bewerken - Medewerkers | Heilige Boontjes</title>
+    <link rel="stylesheet" href="/css/bulma.css"/>
+    <title>Bewerken - Reserveringen | Heilige Boontjes</title>
 </head>
 <body>
 <header class="hero is-primary">
     <div class="hero-body is-flex is-justify-content-space-between">
         <div>
-            <p class="title">Medewerkers > Bewerken</p>
-            <p class="subtitle">Medewerker bewerken</p>
+            <p class="title">Reserveringen > Bewerken</p>
+            <p class="subtitle">Reservering bewerken</p>
             <a class="button" href="index.php">&laquo; Ga terug</a>
         </div>
         <div>
-            <a class="button my-2" href="../../logout.php">Uitloggen</a>
+            <a class="button my-2" href="/logout.php">Uitloggen</a>
             <p class="subtitle"> Hallo, <?= htmlentities($_SESSION['first_name']) ?></p>
         </div>
     </div>
@@ -131,46 +143,26 @@ if (isset($_POST['submit'])) {
 <main>
     <section class="section">
         <div class="container content">
-            <div class="columns">
+            <section class="columns">
                 <form class="column is-6" action="" method="post">
-                    <!-- First name -->
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label" for="first_name">Voornaam</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <div class="control has-icons-left">
-                                    <input class="input" id="first_name" type="text" name="first_name"
-                                           value="<?= $first_name ?? '' ?>"/>
-                                    <span class="icon is-small is-left"><i class="fas fa-person"></i></span>
-                                </div>
-                                <p class="help is-danger">
-                                    <?= $errors['first_name'] ?? '' ?>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Last name -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label" for="last_name">Achternaam</label>
+                            <label class="label" for="lastName">Achternaam</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input" id="last_name" type="text" name="last_name"
-                                           value="<?= $last_name ?? '' ?>"/>
+                                    <input class="input" id="lastName" type="text" name="lastName"
+                                           value="<?= $lastName ?? '' ?>"/>
                                     <span class="icon is-small is-left"><i class="fas fa-person"></i></span>
                                 </div>
                                 <p class="help is-danger">
-                                    <?= $errors['last_name'] ?? '' ?>
+                                    <?= $errors['lastName'] ?? '' ?>
                                 </p>
                             </div>
                         </div>
                     </div>
-
                     <!-- Phone -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
@@ -189,7 +181,6 @@ if (isset($_POST['submit'])) {
                             </div>
                         </div>
                     </div>
-
                     <!-- Email -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
@@ -208,40 +199,118 @@ if (isset($_POST['submit'])) {
                             </div>
                         </div>
                     </div>
-                    <!-- Role -->
+
+                    <!-- Date -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label" for="staff">Rol</label>
+                            <label class="label" for="date">Datum</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" id="date" type="date" name="date"
+                                           value="<?= $date ?? '' ?>"/>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['date'] ?? '' ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Start Time -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="startTime">Start Tijd</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" id="startTime" type="time" name="startTime" step="1"
+                                           value="<?= $startTime ?? '' ?>"/>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['startTime'] ?? '' ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- End Time -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="endTime">Eind Tijd</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" id="endTime" type="time" name="endTime" step="1"
+                                           value="<?= $endTime ?? '' ?>"/>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['endTime'] ?? '' ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Special Request -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="empty">Speciaal Verzoek</label>
                         </div>
                         <div class="field-body radios">
                             <label class="radio">
-                                <input id="staff" type="radio" name="role" value="staff" <?php if ($role == 'staff') {
-                                    echo 'checked';
-                                } ?>/>
-                                Personeel
+                                <input id="empty" type="radio" name="specialRequest" value="none" checked/>
+                                Geen
                             </label>
                             <label class="radio">
-                                <input type="radio" name="role" value="admin" <?php if ($role == 'admin') {
-                                    echo 'checked';
-                                } ?>/>
-                                Administrator
+                                <input type="radio" name="specialRequest" value="vegan"/>
+                                Vegan
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="specialRequest" value="vegetarian"/>
+                                Vegetarian
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="specialRequest" value="halal"/>
+                                Halal
                             </label>
                             <p class="help is-danger">
-                                <?= $errors['role'] ?? '' ?>
+                                <?= $errors['specialRequest'] ?? '' ?>
                             </p>
                         </div>
                     </div>
 
-                    <!--Pass ID in post-->
+                    <!-- Allergies -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="allergies">Allergieën</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input class="input" id="allergies" type="text" name="allergies"
+                                           value="<?= $allergies ?? '' ?>"/>
+                                    <span class="icon is-small is-left"><i class="fas fa-allergies"></i></span>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['allergies'] ?? '' ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                     <input type="hidden" name="id" value="<?= $id ?>"/>
+                    <!-- Submit -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal"></div>
                         <div class="field-body">
-                            <button class="button is-link is-fullwidth" type="submit" name="submit">Opslaan</button>
+                            <button class="button is-link is-fullwidth" type="submit" name="submit">Opslaan
+                            </button>
                         </div>
                     </div>
                 </form>
-            </div>
+            </section>
         </div>
     </section>
 </main>

@@ -18,8 +18,6 @@ if ($_SESSION['role'] !== 'admin') {
 }
 
 if (isset($_POST['submit'])) {
-    /** @var mysqli $db */
-
     // Get form data
     $firstName = mysqli_escape_string($db, $_POST['firstName']);
     $lastName = mysqli_escape_string($db, $_POST['lastName']);
@@ -27,7 +25,7 @@ if (isset($_POST['submit'])) {
     $email = mysqli_escape_string($db, $_POST['email']);
     $password = mysqli_escape_string($db, $_POST['password']);
     $role = mysqli_escape_string($db, $_POST['role']);
-    $strippedPhone = str_replace('+', '' ,$phone);
+    $strippedPhone = str_replace('+', '', $phone);
     $strippedPhone = str_replace(' ', '', $strippedPhone);
     $errors = [];
 
@@ -217,11 +215,11 @@ if (isset($_POST['submit'])) {
                         <div class="field-body radios">
                             <label class="radio">
                                 <input id="staff" type="radio" name="role" value="staff"/>
-                                Staff
+                                Personeel
                             </label>
                             <label class="radio">
                                 <input type="radio" name="role" value="admin"/>
-                                Admin
+                                Administrator
                             </label>
                             <p class="help is-danger">
                                 <?= $errors['role'] ?? '' ?>
@@ -232,7 +230,8 @@ if (isset($_POST['submit'])) {
                     <div class="field is-horizontal">
                         <div class="field-label is-normal"></div>
                         <div class="field-body">
-                            <button class="button is-link is-fullwidth" type="submit" name="submit">Nieuwe medewerker registreren
+                            <button class="button is-link is-fullwidth" type="submit" name="submit">Nieuwe medewerker
+                                registreren
                             </button>
                         </div>
                     </div>

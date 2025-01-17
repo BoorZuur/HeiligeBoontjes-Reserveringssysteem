@@ -44,17 +44,11 @@ mysqli_close($db);
     <title>Medewerkers | Heilige Boontjes</title>
 </head>
 <body>
+<?php require_once ROOT . 'includes/html/navDashboard.php'; ?>
 <header class="hero is-primary">
-    <div class="hero-body is-flex is-justify-content-space-between">
-        <div>
-            <p class="title">Medewerkers</p>
-            <p class="subtitle">Overzicht van alle medewerkers</p>
-            <a class="button" href="../index.php">&laquo; Ga terug naar reserveringen</a>
-        </div>
-        <div>
-            <a class="button my-2" href="../../logout.php">Uitloggen</a>
-            <p class="subtitle"> Hallo, <?= htmlentities($_SESSION['first_name']) ?></p>
-        </div>
+    <div class="hero-body has-text-centered">
+        <p class="title">Medewerkers</p>
+        <p class="subtitle">Overzicht van alle medewerkers</p>
     </div>
 </header>
 

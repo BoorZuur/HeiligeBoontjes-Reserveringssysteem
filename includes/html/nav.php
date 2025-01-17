@@ -7,7 +7,7 @@ $loggedInLink = 'login.php';
 // check if logged in
 if (isset($_SESSION['login'])) {
     $loggedIn = true;
-    $loggedInText = 'Dashboard';
+    $loggedInText = 'Ga naar dashboard';
     $loggedInLink = 'dashboard/index.php';
 }
 ?>
