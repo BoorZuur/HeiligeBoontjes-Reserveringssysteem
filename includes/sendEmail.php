@@ -14,11 +14,11 @@ use PHPMailer\PHPMailer\Exception;
 function sendEmail($to, $subject, $body): bool
 {
     //Create an instance; passing `true` enables exceptions
-    $mail = new PHPMailer(false);
+    $mail = new PHPMailer(true);
 
     try {
         //Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host = 'smtp.strato.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth = true;                                   //Enable SMTP authentication
