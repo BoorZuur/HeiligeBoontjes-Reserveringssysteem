@@ -1,7 +1,54 @@
 <?php
 session_start();
-require_once '../includes/database.php'
+global $db;
+require_once '../includes/database.php';
+require_once '../functions.php';
+$tableid = 30;
+$firstName = $_SESSION['firstName'];
+$lastName = $_SESSION['lastName'];
+$email = $_SESSION['email'];
+$phone = $_SESSION['phone'];
+$date = "2025-1-20";
+$startTime = "12:00:00";
+$endTime = "14:00:00";
+$people = $_SESSION['people'];
+$location = $_SESSION['location'];
+$allergy = $preference = '';
 
+if (isset($_SESSION['foodCheck']) && $_SESSION['foodCheck']  == 'Yes'){
+$allergy = $_SESSION['allergy'];
+$preference = $_SESSION['preference'];
+}
+if (isset($_POST['gang'])) {
+    $query = "INSERT INTO `reservations`
+    (`table_id`, 
+     `last_name`, 
+     `email`, 
+     `phone`, 
+     `date`, 
+     `start_time`, 
+     `end_time`, 
+     `special_request`, 
+     `allergies`) 
+VALUES ($tableid,
+        '$lastName',
+        '$email',
+        '$phone',
+        '$date',
+        '$startTime',
+        '$endTime',
+        '$preference',
+        '$allergy')";
+
+    $result = mysqli_query($db, $query)
+    or die('Error '.mysqli_error($db).' with query '.$query);
+
+    sendReservationEmail($email, $lastName, $date, $startTime, $people);
+    header('Location: ../index.php');
+    exit();
+}else{
+    echo 'error';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +89,17 @@ require_once '../includes/database.php'
             <?= $_SESSION['allergy'] ?? ''?>
         </p>
         <?}?>
-        <button type="submit" name="submit">confirm</button>
+        <form action="" method="post">
+            <input type="hidden" name="hidden" value="<?= $lastName ?>">
+            <input type="hidden" name="hidden" value="<?= $email ?>">
+            <input type="hidden" name="hidden" value="<?= $phone ?>">
+            <input type="hidden" name="hidden" value="<?= $date ?>">
+            <input type="hidden" name="hidden" value="<?= $startTime ?>">
+            <input type="hidden" name="hidden" value="<?= $endTime ?>">
+            <input type="hidden" name="hidden" value="<?= $preference ?>">
+            <input type="hidden" name="hidden" value="<?= $allergy ?>">
+            <button type="submit" name="gang">confirm</button>
+        </form>
     </section>
 </main>
 

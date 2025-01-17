@@ -14,7 +14,7 @@ use PHPMailer\PHPMailer\Exception;
 function sendEmail($to, $subject, $body): bool
 {
     //Create an instance; passing `true` enables exceptions
-    $mail = new PHPMailer(true);
+    $mail = new PHPMailer(false);
 
     try {
         //Server settings
@@ -36,7 +36,7 @@ function sendEmail($to, $subject, $body): bool
         $mail->Subject = $subject;
         $mail->Body = $body;
         $mail->AltBody = 'https://www.heiligeboontjes.com';
-        $mail->AddEmbeddedImage('C:\Users\marti\Documents\Development\HeiligeBoontjes-Reserveringssysteem\includes\email\emaillogo.png', 'logo');
+        $mail->AddEmbeddedImage('../includes/email/emaillogo.png', 'logo');
         $mail->send();
         echo 'Message has been sent';
         return true;

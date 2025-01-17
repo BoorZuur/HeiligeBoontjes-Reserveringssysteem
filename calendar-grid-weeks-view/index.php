@@ -30,7 +30,7 @@ $events = getEvents($weekDays[0]['fullDate'], $weekDays[6]['fullDate']);
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Calendar weekview</title>
-    <!-- From: https://codepen.io/kjellmf/pen/qgxyVJ -->
+<!--     From: https://codepen.io/kjellmf/pen/qgxyVJ -->
     <link href="css/normalize.css" rel="stylesheet" type="text/css"/>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
     <style><?= getDynamicCSS($rosterTimes, $events); ?></style>

@@ -1,6 +1,7 @@
 <?php
     session_start();
     global $db;
+
     $firstName = '';
     $lastName = '';
     $email = '';
@@ -83,12 +84,6 @@
         <div class="center-container">
             <section class="contacts-h2">
                 <h2>Gegevens invoeren</h2>
-                <?=
-                $location;
-                ?>
-                <?=
-                $people;
-                ?>
             </section>
             <form action="" method="POST">
                 <div class="name">
@@ -135,6 +130,49 @@
                         </p>
                     </div>
                 </div>
+                <?
+                if (isset($_GET['id'])){
+                ?>
+                <div class="form-box">
+                    <label for="send-to" class="bold">Waarvoor wilt u de lounge gebruiken?</label>
+                    <select name="send-to" id="send-to">
+                        <option value="" disabled selected>Kies een gebruik</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="meet">Vergadering</option>
+                        <option value="presentation">Presentatie</option>
+                    </select>
+                </div>
+                    <div>
+                        <label>Huur vergaderbenodigheden</label><br>
+                        <br>
+                        <input type="checkbox" id="tv" name="tv" value="TV scherm">
+                        <label for="voorwaarden">TV scherm</label>
+
+                        <input type="checkbox" id="flipover" name="flipover" value="flipover">
+                        <label for="flipover">flipover</label>
+                    </div>
+                    <div>
+                        <label>Vergaderarrangement</label><br>
+                        <br>
+                        <input type="checkbox" id="coffee" name="coffee" value="coffee">
+                        <label for="coffee">1L koffie kan, per kan</label>
+
+                        <input type="checkbox" id="thea" name="thea" value="thea">
+                        <label for="thea">1L thee kan, per kan</label>
+
+                        <input type="checkbox" id="water" name="water" value="water">
+                        <label for="water">1L water, per kan</label>
+                    </div>
+                    <div class="form-box">
+                        <label for="session" class="bold">Wilt u een inspiratiesessie bij de lounge?(1 uur)</label>
+                        <select name="session" id="session">
+                            <option value="" selected>Geen sessie</option>
+                            <option value="max">inspiratiesessie voor max 8 personen</option>
+                            <option value="min">inspiratiesessie vanaf 8 personen</option>
+                            <option value="presentation">Presentatie</option>
+                        </select>
+                    </div>
+                <?}?>
                 <div id="eten">
                     <input type="checkbox" id="myCheck" onclick="myFunction()" name="myCheck" value="Yes">
                     <label for="myCheck">Bent u van plan om bij ons te eten?</label>
@@ -152,18 +190,84 @@
                     }
                 </script>
             <div id="text" style="display:none">
+                <?
+                if (isset($_GET['id'])){
+                ?>
+                <label class="bold" for="breakfast">Welk ontbijt menu zou u willen hebben</label>
+                <div class="category-box">
+                    <div>
+                        <input type="radio" id="A" name="breakfast" value="A" checked>
+                        <label for="A">Ontbijt A</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="B" name="breakfast" value="B">
+                        <label for="B">Ontbijt B</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="C" name="breakfast" value="C">
+                        <label for="C">Ontbijt C</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="C" name="breakfast" value="">
+                        <label for="zero">Geen ontbijt</label>
+                    </div>
+                </div>
+                <br>
+
+                    <label class="bold" for="lunch">Welk lunch menu zou u willen hebben</label>
+                    <div class="category-box">
+                        <div>
+                            <input type="radio" id="A" name="lunch" value="A" checked>
+                            <label for="A">Lunch A</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="B" name="lunch" value="B">
+                            <label for="B">Lunch B</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="C" name="lunch" value="C">
+                            <label for="C">Lunch C</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="C" name="lunch" value="">
+                            <label for="zero">Geen lunch</label>
+                        </div>
+                    </div>
+                    <br>
+
+                    <label class="bold" for="snacks">Zou u snacks willen?</label>
+                    <div class="category-box">
+                        <div>
+                            <input type="radio" id="A" name="snacks" value="A" checked>
+                            <label for="A">Snacks A koud</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="B" name="snacks" value="B">
+                            <label for="B">Snacks B warm</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="C" name="snacks" value="C">
+                            <label for="C">Snacks B warm & koud</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="C" name="snacks" value="">
+                            <label for="zero">Geen snacks</label>
+                        </div>
+                    </div>
+                    <br>
+                <?}?>
                 <label class="bold" for="preference">Wilt u uw eten halal, vegan of vegatarisch?</label>
                 <div class="category-box">
                     <div>
-                        <input type="radio" id="Halal" name="preference" value="Halal">
+                        <input type="radio" id="Halal" name="preference" value="halal">
                         <label for="Halal">Halal</label>
                     </div>
                     <div>
-                        <input type="radio" id="Vegan" name="preference" value="Vegan">
+                        <input type="radio" id="Vegan" name="preference" value="vegan">
                         <label for="Vegan">Vegan</label>
                     </div>
                     <div>
-                        <input type="radio" id="Vegatarisch" name="preference" value="Vegatarisch">
+                        <input type="radio" id="Vegatarisch" name="preference" value="vegatarisch">
                         <label for="Vegatarisch">Vegatarisch</label>
                     </div>
                     <div>

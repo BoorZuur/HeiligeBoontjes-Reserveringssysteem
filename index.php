@@ -54,11 +54,15 @@ session_start();
                 </div>
                 <div class="column is-narrow">
                     <a class="button is-link"
-                       href="/reserveren/index.php">Reserveer restaurant</a>
+                       href="gegevens/table.php">Reserveer restaurant</a>
                 </div>
                 <div class="column is-narrow">
                     <a class="button is-link"
-                       href="/reserveren/index.php">Reserveer </a>
+                       href="gegevens/gegevens.php?id=2">Reserveer Lounge</a>
+                </div>
+                <div class="column is-narrow">
+                    <a class="button is-link"
+                       href="calendar-grid-weeks-view/index.php">Test</a>
                 </div>
             </div>
         </div>
