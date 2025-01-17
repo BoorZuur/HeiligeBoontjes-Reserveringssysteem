@@ -1,5 +1,5 @@
 <?php
-require_once '../../config.php';
+require_once '../config.php';
 
 // this tells phpstorm that $db exists otherwise it will get mad at you
 /** @var mysqli $db */
@@ -12,29 +12,21 @@ if (!isset($_SESSION['login'])) {
     exit();
 }
 
-// check if user is admin
-if ($_SESSION['role'] !== 'admin') {
-    header('Location: ../reservations.php');
-}
-
 if (isset($_POST['submit'])) {
-    /** @var mysqli $db */
-
     // Get form data
-    $firstName = mysqli_escape_string($db, $_POST['firstName']);
     $lastName = mysqli_escape_string($db, $_POST['lastName']);
     $phone = mysqli_escape_string($db, $_POST['phone']);
     $email = mysqli_escape_string($db, $_POST['email']);
-    $password = mysqli_escape_string($db, $_POST['password']);
-    $role = mysqli_escape_string($db, $_POST['role']);
-    $strippedPhone = str_replace('+', '' ,$phone);
+    $date = mysqli_escape_string($db, $_POST['date']);
+    $startTime = mysqli_escape_string($db, $_POST['startTime']);
+    $endTime = mysqli_escape_string($db, $_POST['endTime']);
+    $specialRequest = mysqli_escape_string($db, $_POST['specialRequest']);
+    $allergies = mysqli_escape_string($db, $_POST['allergies']);
+    $strippedPhone = str_replace('+', '', $phone);
     $strippedPhone = str_replace(' ', '', $strippedPhone);
     $errors = [];
 
     // Server-side validation
-    if (empty($firstName)) {
-        $errors['firstName'] = 'Voornaam is vereist';
-    }
     if (empty($lastName)) {
         $errors['lastName'] = 'Achternaam is vereist';
     }
@@ -50,25 +42,27 @@ if (isset($_POST['submit'])) {
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'Ongeldige email';
     }
-    if (empty($password)) {
-        $errors['password'] = 'Password is vereist';
-    } elseif (strlen($password) < 6) {
-        $errors['password'] = 'Wachtwoord moet minstens 6 tekens zijn';
+    if (!date_create_from_format('Y-m-d', $date)) {
+        $errors['date'] = 'Ongeldige datum';
     }
-    if (empty($role)) {
-        $errors['role'] = 'Rol is vereist';
-    } elseif (!in_array($role, ['admin', 'staff'])) {
-        $errors['role'] = 'Ongeldige rol';
+    if (!date_create_from_format('H:i:s', $startTime)) {
+        $errors['startTime'] = 'Ongeldige tijd';
+    }
+    if (!date_create_from_format('H:i:s', $endTime)) {
+        $errors['endTime'] = 'Ongeldige tijd';
+    }
+    if (!in_array($specialRequest, ['none', 'vegan', 'vegetarian', 'halal'])) {
+        $errors['specialRequest'] = 'Ongeldig verzoek';
+    }
+    if (empty($allergies)) {
+        $allergies = null;
     }
 
-    // If data valid
+// If data valid
     if (empty($errors)) {
-        // create a secure password, with the PHP function password_hash()
-        $password = password_hash($password, PASSWORD_DEFAULT);
-
         // store the new user in the database.
-        $query = "INSERT INTO employees (`first_name`, `last_name`, `phone`, `email`, `password`, `role`) 
-                  VALUES ('$firstName', '$lastName', '$phone', '$email', '$password', '$role')";
+        $query = "INSERT INTO reservations (`table_id`, `last_name`, `phone`, `email`, `date`, `start_time`, `end_time`, `special_request`, `allergies`) 
+                  VALUES (1, '$lastName', '$phone', '$email', '$date', '$startTime', '$endTime', '$specialRequest', '$allergies')";
 
         $result = mysqli_query($db, $query)
         or die('Error ' . mysqli_error($db) . ' with query ' . $query);
@@ -86,25 +80,25 @@ if (isset($_POST['submit'])) {
 }
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../../css/bulma.css"/>
-    <title>Aanmaken - Medewerkers | Heilige Boontjes</title>
+    <link rel="stylesheet" href="/css/bulma.css"/>
+    <title>Aanmaken - Reserveringen | Heilige Boontjes</title>
 </head>
 <body>
 <header class="hero is-primary">
     <div class="hero-body is-flex is-justify-content-space-between">
         <div>
-            <p class="title">Medewerkers > Aanmaken</p>
-            <p class="subtitle">Nieuwe medewerker aanmaken</p>
+            <p class="title">Reserveringen > Aanmaken</p>
+            <p class="subtitle">Nieuwe reservering aanmaken</p>
             <a class="button" href="index.php">&laquo; Ga terug</a>
         </div>
         <div>
-            <a class="button my-2" href="../../logout.php">Uitloggen</a>
+            <a class="button my-2" href="/logout.php">Uitloggen</a>
             <p class="subtitle"> Hallo, <?= htmlentities($_SESSION['first_name']) ?></p>
         </div>
     </div>
@@ -114,26 +108,6 @@ if (isset($_POST['submit'])) {
         <div class="container content">
             <section class="columns">
                 <form class="column is-6" action="" method="post">
-
-                    <!-- First name -->
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label" for="firstName">Voornaam</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <div class="control has-icons-left">
-                                    <input class="input" id="firstName" type="text" name="firstName"
-                                           value="<?= $firstName ?? '' ?>"/>
-                                    <span class="icon is-small is-left"><i class="fas fa-person"></i></span>
-                                </div>
-                                <p class="help is-danger">
-                                    <?= $errors['firstName'] ?? '' ?>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Last name -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
@@ -152,7 +126,6 @@ if (isset($_POST['submit'])) {
                             </div>
                         </div>
                     </div>
-
                     <!-- Phone -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
@@ -171,7 +144,6 @@ if (isset($_POST['submit'])) {
                             </div>
                         </div>
                     </div>
-
                     <!-- Email -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
@@ -191,48 +163,112 @@ if (isset($_POST['submit'])) {
                         </div>
                     </div>
 
-                    <!-- Password -->
+                    <!-- Date -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label" for="password">Wachtwoord</label>
+                            <label class="label" for="date">Datum</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
-                                <div class="control has-icons-left">
-                                    <input class="input" id="password" type="password" name="password"/>
-                                    <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
+                                <div class="control">
+                                    <input class="input" id="date" type="date" name="date"
+                                           value="<?= $date ?? '' ?>"/>
                                 </div>
                                 <p class="help is-danger">
-                                    <?= $errors['password'] ?? '' ?>
+                                    <?= $errors['date'] ?? '' ?>
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Role -->
+                    <!-- Start Time -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label" for="staff">Rol</label>
+                            <label class="label" for="startTime">Start Tijd</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" id="startTime" type="time" name="startTime" step="1"
+                                           value="<?= $startTime ?? '' ?>"/>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['startTime'] ?? '' ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- End Time -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="endTime">Eind Tijd</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" id="endTime" type="time" name="endTime" step="1"
+                                           value="<?= $endTime ?? '' ?>"/>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['endTime'] ?? '' ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Special Request -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="empty">Speciaal Verzoek</label>
                         </div>
                         <div class="field-body radios">
                             <label class="radio">
-                                <input id="staff" type="radio" name="role" value="staff"/>
-                                Staff
+                                <input id="empty" type="radio" name="specialRequest" value="none" checked/>
+                                Geen
                             </label>
                             <label class="radio">
-                                <input type="radio" name="role" value="admin"/>
-                                Admin
+                                <input type="radio" name="specialRequest" value="vegan"/>
+                                Vegan
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="specialRequest" value="vegetarian"/>
+                                Vegetarian
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="specialRequest" value="halal"/>
+                                Halal
                             </label>
                             <p class="help is-danger">
-                                <?= $errors['role'] ?? '' ?>
+                                <?= $errors['specialRequest'] ?? '' ?>
                             </p>
                         </div>
                     </div>
+
+                    <!-- Allergies -->
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="allergies">Allergieën</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input class="input" id="allergies" type="text" name="allergies"
+                                           value="<?= $allergies ?? '' ?>"/>
+                                    <span class="icon is-small is-left"><i class="fas fa-allergies"></i></span>
+                                </div>
+                                <p class="help is-danger">
+                                    <?= $errors['allergies'] ?? '' ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Submit -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal"></div>
                         <div class="field-body">
-                            <button class="button is-link is-fullwidth" type="submit" name="submit">Nieuwe medewerker registreren
+                            <button class="button is-link is-fullwidth" type="submit" name="submit">Reservering Aanmaken
                             </button>
                         </div>
                     </div>

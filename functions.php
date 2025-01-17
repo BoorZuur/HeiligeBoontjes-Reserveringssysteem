@@ -2,16 +2,16 @@
 // form validation
 
 // check if logged in
-function checkLoggedIn(): bool
+function checkLoggedIn(): void
 {
-    if (isset($_SESSION['login'])) {
-        return true;
-    } else {
-        return false;
+    if (!isset($_SESSION['login'])) {
+        // Redirect if not logged in
+        header('Location: /login.php');
+        exit();
     }
 }
 
-sendReservationEmail('stefhuijsdens@gmail.com', 'Huijsdens', '17-01-2025', '17:00', 'honderd miljoen');
+// sendReservationEmail('stefhuijsdens@gmail.com', 'Huijsdens', '17-01-2025', '17:00', 'honderd miljoen');
 
 // send reservation email
 function sendReservationEmail($recipient, $name, $date, $time, $guestAmount): bool
