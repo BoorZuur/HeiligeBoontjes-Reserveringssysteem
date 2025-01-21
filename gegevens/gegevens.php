@@ -81,10 +81,118 @@
 
 <main>
     <section>
+        <?php
+        if (isset($_GET['id'])){
+        ?>
+        <dialog>
+            <button autofocus>X</button>
+            <h5>Ontbijt opties <b>tot 11:00</b></h5>
+            <br>
+            <p>
+                <b>Ontbijt A - €13,50</b><br>
+                - Desem en spelt brood<br>
+                - Divers beleg (zoet en hartig)<br>
+                - Verse jus d'orange<br>
+                - Bakkie pleur of bakkie thee<br>
+                - Specials tegen meerprijs verkrijgbaar (+€0,65)<br>
+            </p>
+            <p>
+                <b>Ontbijt B - €16,00</b><br>
+                - Desem en spelt brood<br>
+                - Divers beleg (zoet en hartig)<br>
+                - Croissant<br>
+                - Gekookt ei<br>
+                - Verse jus d'orange<br>
+                - Bakkie pleur of bakkie thee<br>
+                - Specials tegen meerprijs verkrijgbaar (+€0,65)<br>
+            </p>
+            <p>
+                <b>Ontbijt C - €16,00</b><br>
+                - Desem en spelt brood<br>
+                - Divers beleg (zoet en hartig)<br>
+                - Croissant<br>
+                - Gekookt ei<br>
+                - Yoghurt met muesli<br>
+                - Handfruit<br>
+                - Verse jus d'orange<br>
+                - Bakkie pleur of bakkie thee<br>
+                - Specials tegen meerprijs verkrijgbaar (+€0,65)<br>
+            </p>
+
+            <h5>Lunch opties <b>van 11:00 tot 17:00</b></h5>
+            <br>
+            <p>
+                <b>Lunch A - €14,50</b><br>
+                - Desem en spelt brood<br>
+                - Divers beleg (zoet en hartig)<br>
+                - Verse jus d'orange<br>
+                - Bakkie pleur of bakkie thee<br>
+                - Specials tegen meerprijs verkrijgbaar (+€0,65)<br>
+            </p>
+            <p>
+                <b>Lunch B - €19,50</b><br>
+                - Desem en spelt brood<br>
+                - Divers beleg (zoet en hartig)<br>
+                - Handfruit en frisse salade<br>
+                - Kroket (rund en/of vega)<br>
+                - Verse jus d'orange<br>
+                - Bakkie pleur of bakkie thee<br>
+                - Specials tegen meerprijs verkrijgbaar (+€0,65)<br>
+            </p>
+            <p>
+                <b>Lunch C - €24,50</b><br>
+                - Desem en spelt brood<br>
+                - Divers beleg (zoet en hartig)<br>
+                - Handfruit en frisse salade<br>
+                - Soep van de dag<br>
+                - Kroket (rund en/of vega)<br>
+                - Verse jus d'orange<br>
+                - Bakkie pleur of bakkie thee<br>
+                - Specials tegen meerprijs verkrijgbaar (+€0,65)<br>
+            </p>
+            <h5>Borrelarrangement <b>van 11:00 tot 17:00</b></h5>
+            <br>
+            <p>
+                <b>Snacks A koud - €14,50</b><br>
+                - Kaas oud en jong met mosterd<br>
+                - Notenmelange<br>
+                - Cornichon garnituur<br>
+            </p>
+            <p>
+                <b>Snacks B warm - €14,50</b><br>
+                - Variatie van warme snacks met twee soorten saus<br>
+            </p>
+            <p>
+                <b>Snacks A warm & koud - €14,50</b><br>
+                - Kaas oud en jong met mosterd<br>
+                - Notenmelange<br>
+                - Cornichon garnituur<br>
+                - Variatie van warme snacks met twee soorten saus<br>
+            </p>
+        </dialog>
+        <button class="mini_button">Lounge menu</button>
+
+        <script>
+            const dialog = document.querySelector("dialog");
+            const showButton = document.querySelector("dialog + button");
+            const closeButton = document.querySelector("dialog button");
+
+            // "Show the dialog" button opens the dialog modally
+            showButton.addEventListener("click", () => {
+                dialog.showModal();
+            });
+
+            // "Close" button closes the dialog
+            closeButton.addEventListener("click", () => {
+                dialog.close();
+            });
+        </script>
+        <?php }?>
         <div class="center-container">
             <section class="contacts-h2">
                 <h2>Gegevens invoeren</h2>
             </section>
+
             <form action="" method="POST">
                 <div class="name">
                     <div class="form-box">
@@ -130,7 +238,7 @@
                         </p>
                     </div>
                 </div>
-                <?
+                <?php
                 if (isset($_GET['id'])){
                 ?>
                 <div class="form-box">
@@ -144,7 +252,6 @@
                 </div>
                     <div>
                         <label>Huur vergaderbenodigheden</label><br>
-                        <br>
                         <input type="checkbox" id="tv" name="tv" value="TV scherm">
                         <label for="voorwaarden">TV scherm</label>
 
@@ -153,7 +260,6 @@
                     </div>
                     <div>
                         <label>Vergaderarrangement</label><br>
-                        <br>
                         <input type="checkbox" id="coffee" name="coffee" value="coffee">
                         <label for="coffee">1L koffie kan, per kan</label>
 
@@ -172,7 +278,7 @@
                             <option value="presentation">Presentatie</option>
                         </select>
                     </div>
-                <?}?>
+                <?php }?>
                 <div id="eten">
                     <input type="checkbox" id="myCheck" onclick="myFunction()" name="myCheck" value="Yes">
                     <label for="myCheck">Bent u van plan om bij ons te eten?</label>
@@ -190,10 +296,10 @@
                     }
                 </script>
             <div id="text" style="display:none">
-                <?
+                <?php
                 if (isset($_GET['id'])){
                 ?>
-                <label class="bold" for="breakfast">Welk ontbijt menu zou u willen hebben</label>
+                    <label class="bold" for="breakfast">Welk ontbijt menu zou u willen hebben</label>
                 <div class="category-box">
                     <div>
                         <input type="radio" id="A" name="breakfast" value="A" checked>
@@ -255,7 +361,7 @@
                         </div>
                     </div>
                     <br>
-                <?}?>
+                <?php }?>
                 <label class="bold" for="preference">Wilt u uw eten halal, vegan of vegatarisch?</label>
                 <div class="category-box">
                     <div>
@@ -283,7 +389,6 @@
             </div>
                 <button type="submit" name="submit">Verzenden</button>
             </form>
-
         </div>
     </section>
 </main>

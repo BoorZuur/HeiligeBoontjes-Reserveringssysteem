@@ -61,7 +61,7 @@ header('Location: gegevens.php');
                 <option value="8">8</option>
             </select>
         </div>
-        <button type="submit" name="next">Volgende stap</button>
+        <button type="submit" name="next" class="">Volgende stap</button>
     </form>
     </section>
 <!--<header class="h-contacts">-->

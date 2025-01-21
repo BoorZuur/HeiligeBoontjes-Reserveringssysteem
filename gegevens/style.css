@@ -25,6 +25,14 @@ h4{
     font-size: 1.25rem;
     font-weight: normal;
 }
+h5{
+    font-size: 1.1rem;
+}
+
+::backdrop {
+    background-color: black;
+    opacity: 0.75;
+}
 
 .slideshow-container{
     max-width: 1000px;
@@ -81,8 +89,6 @@ h4{
 }
 
 
-/* begin Header code*/
-
 header p{
     color: #FFFFFF;
     max-width: 500px;
@@ -98,6 +104,12 @@ header{
 }
 header h1{
     color: white;
+}
+
+.mini_button{
+    width: 20vw;
+    max-width: 1000px;
+    margin: 0 0 0 23.5vw;
 }
 
 a.small-button{
@@ -144,6 +156,8 @@ section{
     position: relative;
     transition:color 0.5s, background 0.5s ;
 }
+
+
 
 .link{
     text-decoration: underline;
@@ -369,5 +383,9 @@ button:hover{
     }
     .input-box{
         width: auto;
+    }
+    .mini_button{
+        width: 40vw;
+        margin: 0 auto;
     }
 }
