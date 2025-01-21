@@ -23,7 +23,6 @@ if (isset($_POST['submit'])) {
     $lastName = mysqli_escape_string($db, $_POST['lastName']);
     $phone = mysqli_escape_string($db, $_POST['phone']);
     $email = mysqli_escape_string($db, $_POST['email']);
-    $password = mysqli_escape_string($db, $_POST['password']);
     $role = mysqli_escape_string($db, $_POST['role']);
     $strippedPhone = str_replace('+', '', $phone);
     $strippedPhone = str_replace(' ', '', $strippedPhone);
@@ -48,11 +47,6 @@ if (isset($_POST['submit'])) {
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'Ongeldige email';
     }
-    if (empty($password)) {
-        $errors['password'] = 'Password is vereist';
-    } elseif (strlen($password) < 6) {
-        $errors['password'] = 'Wachtwoord moet minstens 6 tekens zijn';
-    }
     if (empty($role)) {
         $errors['role'] = 'Rol is vereist';
     } elseif (!in_array($role, ['admin', 'staff'])) {
@@ -62,7 +56,8 @@ if (isset($_POST['submit'])) {
     // If data valid
     if (empty($errors)) {
         // create a secure password, with the PHP function password_hash()
-        $password = password_hash($password, PASSWORD_DEFAULT);
+        $randomPass = createRandomPass();
+        $password = password_hash($randomPass, PASSWORD_DEFAULT);
 
         // store the new user in the database.
         $query = "INSERT INTO employees (`first_name`, `last_name`, `phone`, `email`, `password`, `role`) 
@@ -75,9 +70,10 @@ if (isset($_POST['submit'])) {
 
         // If query succeeded
         if ($result) {
+            // stuur e-mail met info naar medewerker
+            sendAccountEmail($email, $firstName, $lastName, $phone, $randomPass);
             // Redirect to login page
             header('Location: index.php');
-            // Exit the code
             exit();
         }
     }
@@ -189,24 +185,6 @@ if (isset($_POST['submit'])) {
                         </div>
                     </div>
 
-                    <!-- Password -->
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label" for="password">Wachtwoord</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <div class="control has-icons-left">
-                                    <input class="input" id="password" type="password" name="password"/>
-                                    <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
-                                </div>
-                                <p class="help is-danger">
-                                    <?= $errors['password'] ?? '' ?>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Role -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
@@ -214,7 +192,7 @@ if (isset($_POST['submit'])) {
                         </div>
                         <div class="field-body radios">
                             <label class="radio">
-                                <input id="staff" type="radio" name="role" value="staff"/>
+                                <input id="staff" type="radio" name="role" value="staff" checked/>
                                 Personeel
                             </label>
                             <label class="radio">

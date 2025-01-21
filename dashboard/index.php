@@ -20,6 +20,7 @@ $dateConverted = date("Y-m-d", $dateConverted);
 
 $query = "SELECT * FROM reservations WHERE '$dateConverted' = date ORDER BY start_time";
 
+
 $result = mysqli_query($db, $query)
 or die('Error ' . mysqli_error($db) . ' with query ' . $query);
 
@@ -52,8 +53,10 @@ mysqli_close($db);
 <main class="container">
     <section class="section">
         <div class="is-flex is-gap-3 is-justify-content-center mb-5">
-            <a class="button is-primary" href="index.php?day=0">Terug naar vandaag</a>
-            <a class="button is-info" href="create.php">+ Nieuwe reservering aanmaken</a>
+            <a class="button is-primary <?php if (empty($selectedDay)) {
+                ?> is-display-none <?php } ?>" href="index.php?day=0">&curvearrowleft; Terug naar
+                vandaag</a>
+            <a class="button is-info" href="create.php">&plus; Nieuwe reservering aanmaken</a>
         </div>
         <div class="is-flex is-gap-2 is-justify-content-center is-align-items-center mb-1">
             <a class="button is-link" href="?day=<?= $selectedDay - 1 ?>">&laquo; Vorige dag</a>

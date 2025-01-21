@@ -36,7 +36,6 @@ if (isset($_SESSION['login'])) {
             <span></span>
         </div>
     </div>
-
     <div id="navMenuColorprimary" class="navbar-menu">
         <div class="navbar-start">
             <a class="navbar-item" href="/dashboard/index.php"> Reserveringen </a>

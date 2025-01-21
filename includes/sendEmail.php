@@ -36,7 +36,7 @@ function sendEmail($to, $subject, $body): bool
         $mail->Subject = $subject;
         $mail->Body = $body;
         $mail->AltBody = 'https://www.heiligeboontjes.com';
-        $mail->AddEmbeddedImage('../includes/email/emaillogo.png', 'logo');
+        $mail->AddEmbeddedImage(ROOT . 'includes/email/emaillogo.png', 'logo');
         $mail->send();
         echo 'Message has been sent';
         return true;
