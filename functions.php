@@ -37,6 +37,36 @@ function sendReservationEmail($recipient, $name, $date, $time, $guestAmount): bo
     }
 }
 
+function sendLoungeEmail($recipient, $name, $date, $time, $breakfast, $lunch, $snacks, $coffee, $thea, $water): bool
+{
+    require_once "includes/sendEmail.php";
+
+    $subject = "Bevestiging van uw reservering in de lounge bij de Heilige Boontjes op " . $date;
+    $message = "<p>Beste " . htmlentities($name) . ",<br><br>
+                Hierbij de bevestiging van uw reservering in de lounge bij de Heilige Boontjes.<br><br>
+                Wanneer: " . htmlentities($date) . "<br>
+                Hoe laat: " . htmlentities($time) . "<br>
+                <b>Eten</b><br>
+                Ontbijt: " . htmlentities($breakfast) . "<br>
+                Lunch: " . htmlentities($lunch) . "<br>
+                Snacks: " . htmlentities($snacks) . "<br>
+                <b>Drinken</b><br>
+                Coffee: " . htmlentities($coffee) . "<br>
+                Thea: " . htmlentities($thea) . "<br>
+                Water: " . htmlentities($water) . "<br>
+                Met vriendelijke groet,<br><br>
+                <b>Heilige Boontjes</b><br>
+                Locatie: Eendrachtsplein 3, 3015 LA Rotterdam<br>
+                Telefoonnummer: 010 840 13 83</p>
+                <img src='cid:logo' alt='logo'>";
+    $sendEmail = sendEmail($recipient, $subject, $message);
+    if ($sendEmail) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function sendAccountEmail($recipient, $first_name, $last_name, $phone, $password): bool
 {
     require_once "includes/sendEmail.php";
