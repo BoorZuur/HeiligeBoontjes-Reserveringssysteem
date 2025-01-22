@@ -1,6 +1,6 @@
 <?php
     session_start();
-/** @var mysqli $db */
+    global $db;
 
     $firstName = '';
     $lastName = '';
@@ -12,16 +12,17 @@
     if (isset($_GET['id'])){
         $id = $_GET['id'];
         $_SESSION['id'] = $id;
-        $tv = false;
-        $flipover = false;
-        $coffee = false;
-        $thea = false;
-        $water = false;
+        $lounge = '';
+        $session = '';
+        $tv = 0;
+        $flipover = 0;
+        $coffee = 0;
+        $thea = 0;
+        $water = 0;
         $breakfast = '';
         $lunch = '';
         $snacks = '';
     }
-echo $tv;
     if (isset($_POST['submit'])){
         $firstName = $_POST['firstName'];
         $lastName = $_POST['lastName'];
@@ -32,19 +33,31 @@ echo $tv;
         if (isset($_GET['id'])){
             if (isset($_POST['tv']) && $_POST['tv'] == "yes"){
                 $tv = true;
+            } else {
+                $tv = 0;
             }
             if (isset($_POST['flipover']) && $_POST['flipover'] == "yes"){
                 $flipover = true;
+            } else{
+                $flipover = 0;
             }
             if (isset($_POST['coffee']) && $_POST['coffee'] == "yes"){
                 $coffee = true;
+            } else{
+                $coffee = 0;
             }
             if (isset($_POST['thea']) && $_POST['thea'] == "yes"){
                 $thea = true;
+            } else{
+                $thea = 0;
             }
             if (isset($_POST['water']) && $_POST['water'] == "yes"){
-                $thea = true;
+                $water = true;
+            } else{
+                $water = 0;
             }
+            $lounge = $_POST['send-to'];
+            $session = $_POST['session'];
         }
 
             if (isset($_POST['myCheck']) && $_POST['myCheck'] == "Yes"){
@@ -92,6 +105,8 @@ echo $tv;
             $_SESSION['breakfast'] = $_POST['breakfast'];
             $_SESSION['lunch'] = $_POST['lunch'];
             $_SESSION['snacks'] = $_POST['snacks'];
+            $_SESSION['lounge'] = $lounge;
+            $_SESSION['session'] = $session;
             header('Location: confirm.php');
         }
     }
@@ -284,8 +299,9 @@ echo $tv;
                     <label for="send-to" class="bold">Waarvoor wilt u de lounge gebruiken?</label>
                     <select name="send-to" id="send-to">
                         <option value="" disabled selected>Kies een gebruik</option>
-                        <option value="meet">Vergadering</option>
-                        <option value="presentation">Presentatie</option>
+                        <option value="vergadering">Vergadering</option>
+                        <option value="presentatie">Presentatie</option>
+                        <option value="studie sessie">Studie sessie</option>
                     </select>
                 </div>
                     <div>
@@ -310,10 +326,9 @@ echo $tv;
                     <div class="form-box">
                         <label for="session" class="bold">Wilt u een inspiratiesessie bij de lounge?(1 uur)</label>
                         <select name="session" id="session">
-                            <option value="" selected>Geen sessie</option>
-                            <option value="max">inspiratiesessie voor max 8 personen</option>
-                            <option value="min">inspiratiesessie vanaf 8 personen</option>
-                            <option value="presentation">Presentatie</option>
+                            <option value="geen sessie" selected>Geen sessie</option>
+                            <option value="inspiratiesessie voor max 8 personen">inspiratiesessie voor max 8 personen</option>
+                            <option value="inspiratiesessie vanaf 8 personen">inspiratiesessie vanaf 8 personen</option>
                         </select>
                     </div>
                 <?php }?>
@@ -411,7 +426,7 @@ echo $tv;
                         <label for="Vegan">Vegan</label>
                     </div>
                     <div>
-                        <input type="radio" id="Vegatarisch" name="specialRequest" value="vegatarisch">
+                        <input type="radio" id="Vegatarisch" name="specialRequest" value="vegetarian">
                         <label for="Vegatarisch">Vegatarisch</label>
                     </div>
                     <div>

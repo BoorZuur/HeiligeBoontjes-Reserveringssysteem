@@ -51,10 +51,10 @@ if (isset($_GET['date']) && !empty($_GET['date'])) {
     // Maak een array met tijden van 09:00 - 17:00 met stappen van 30 minuten.
     $times = [];
     $time = strtotime('09:00');
-    $timeToAdd = 30;
+    $timeToAdd = 90;
 
     // Blijf de times array vullen totdat 17:00 bereikt wordt.
-    while ($time <= strtotime('17:00')) {
+    while ($time <= strtotime('16:00')) {
         // time toevoegen aan times array
         $times[] = date('H:i', $time);
 

@@ -2,18 +2,21 @@
 session_start();
 global $db;
 require_once '../includes/database.php';
-require_once '../functions.php';
+require_once '../config.php';
 
 if (empty($_SESSION['firstName']) && empty($_SESSION['lastName'])
     && empty($_SESSION['email']) && empty($_SESSION['phone'])){
     header('Location: ../index.php');
 }
-
+echo $_SESSION['coffee'];
 $tableid = 30;
 $firstName = $_SESSION['firstName'];
 $lastName = $_SESSION['lastName'];
 $email = $_SESSION['email'];
 $phone = $_SESSION['phone'];
+$firstName = mysqli_real_escape_string($db, $firstName);
+$lastName = mysqli_real_escape_string($db, $lastName);
+$email = mysqli_real_escape_string($db, $email);
 $date = "2025-1-20";
 $startTime = "12:00:00";
 $endTime = "14:00:00";
@@ -24,6 +27,7 @@ if (empty($_SESSION['people']) && empty($_SESSION['location'])){
 $people = $_SESSION['people'];
 $location = $_SESSION['location'];
 $allergy = $specialRequest = 'none';
+$specialRequest = mysqli_real_escape_string($db, $specialRequest);
 
 if (isset($_SESSION['id'])){
     $tv = $_SESSION['tv'];
@@ -34,6 +38,9 @@ if (isset($_SESSION['id'])){
     $breakfast = $_SESSION['breakfast'];
     $lunch = $_SESSION['lunch'];
     $snacks = $_SESSION['snacks'];
+    $lounge = $_SESSION['lounge'];
+    $session = $_SESSION['session'];
+    echo $coffee;
 }
 
 if (isset($_SESSION['foodCheck']) && $_SESSION['foodCheck'] == 'Yes') {
@@ -42,7 +49,25 @@ if (isset($_SESSION['foodCheck']) && $_SESSION['foodCheck'] == 'Yes') {
     $specialRequest = $_SESSION['specialRequest'];
 }
 if (isset($_POST['send'])) {
-    $query = "INSERT INTO `reservations`
+    if (isset($_SESSION['id'])) {
+        $query = "INSERT INTO `lounge`
+        (`firstName`, `lastName`, `email`, `date`, `start_time`, `end_time`, `special_request`, 
+         `tv`, `lounge`, `session`, `flipover`, `coffee`, `thea`, `water`, `breakfast`, `lunch`, `snacks`, 
+         `allergy`) 
+    VALUES ('$firstName','$lastName','$email','$date','$startTime','$endTime','$specialRequest',
+            $tv,'$lounge','$session',$flipover,$coffee,$thea,0,
+            '$breakfast','$lunch','$snacks','$allergy')";
+        echo $query;
+
+        $result = mysqli_query($db, $query)
+        or die('Error ' . mysqli_error($db) . ' with query ' . $query);
+
+        sendLoungeEmail($email, $lastName, $date, $startTime, $breakfast, $lunch, $snacks, $coffee, $thea, $water);
+        header('Location: ../index.php');
+        session_destroy();
+        exit();
+    } else {
+        $query = "INSERT INTO `reservations`
     (`table_id`, 
      `last_name`, 
      `email`, 
@@ -61,14 +86,15 @@ VALUES ($tableid,
         '$endTime',
         '$specialRequest',
         '$allergy')";
-    echo $allergy;
-    $result = mysqli_query($db, $query)
-    or die('Error ' . mysqli_error($db) . ' with query ' . $query);
 
-    sendReservationEmail($email, $lastName, $date, $startTime, $people);
-    header('Location: ../index.php');
-    session_destroy();
-    exit();
+        $result = mysqli_query($db, $query)
+        or die('Error ' . mysqli_error($db) . ' with query ' . $query);
+
+        sendReservationEmail($email, $lastName, $date, $startTime, $people);
+        header('Location: ../index.php');
+        session_destroy();
+        exit();
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -120,26 +146,27 @@ VALUES ($tableid,
             if (isset($_SESSION['id'])){
             ?>
                 <p>
-                    <b>Lounge</b>
-                </p>
+                    <b>Lounge</b><br>
+                    lounge gebruik: <?=$lounge?><br>
+                    inspiratie sessie: <?=$session?><br>
             <?php }?>
         <?php } ?>
         <?php
-            if (isset($_SESSION['tv'])){?>
-            <p>Tv scherm</p>
+            if (isset($_SESSION['tv']) && $_SESSION['tv'] == 1){?>
+            Tv scherm<br>
             <?php } ?>
-        <?php if (isset($_SESSION['flipover'])){?>
-            <p>flipover</p>
+        <?php if (isset($_SESSION['flipover'])&& $_SESSION['flipover'] == 1){?>
+            flipover<br>
         <?php }?>
-        <?php if (isset($_SESSION['coffee'])){?>
-            <p>1L koffie kan</p>
+        <?php if (isset($_SESSION['coffee'])&& $_SESSION['coffee'] == 1){?>
+            1L koffie kan<br>
         <?php }?>
-        <?php if (isset($_SESSION['thea'])){?>
-            <p>1L thee kan</p>
+        <?php if (isset($_SESSION['thea'])&& $_SESSION['thea'] == 1){?>
+            1L thee kan<br>
         <?php }?>
         <?php
-        if (isset($_SESSION['water'])){?>
-            <p>1L water kan</p>
+        if (isset($_SESSION['water'])&& $_SESSION['water'] == 1){?>
+            1L water kan</p>
         <?php }?>
 
 
@@ -154,6 +181,7 @@ VALUES ($tableid,
             <input type="hidden" name="hidden" value="<?= $allergy ?>">
             <button type="submit" name="send">confirm</button>
         </form>
+        <a class="small-button" href="cancel.php">cancel</a>
     </section>
 </main>
 
