@@ -1,12 +1,8 @@
 <?php
 session_start();
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-}
 if (isset($_POST['next'])){
 $_SESSION['people'] = $_POST['send-to'];
 $_SESSION['location'] = $_POST['place'];
-$_SESSION['id'] = $id;
 header('Location: gegevens.php');
 }
 ?>

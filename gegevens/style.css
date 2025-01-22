@@ -30,7 +30,7 @@ h5{
 }
 
 ::backdrop {
-    background-color: black;
+    background-color: white;
     opacity: 0.75;
 }
 
@@ -151,7 +151,6 @@ section{
     color: #FFFFFF;
     text-decoration: none;
     text-align: center;
-    border-radius: 5px;
     background-color: #b97c42;
     position: relative;
     transition:color 0.5s, background 0.5s ;

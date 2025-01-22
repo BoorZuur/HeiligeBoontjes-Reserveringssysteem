@@ -1,17 +1,27 @@
 <?php
     session_start();
-    global $db;
+/** @var mysqli $db */
 
     $firstName = '';
     $lastName = '';
     $email = '';
     $phone = '';
     $allergy = '';
-    $people = $_SESSION['people'];
-    $location = $_SESSION['location'];
     $foodCheck = 'No';
-    $preference = 'none';
-
+    $specialRequest = 'none';
+    if (isset($_GET['id'])){
+        $id = $_GET['id'];
+        $_SESSION['id'] = $id;
+        $tv = false;
+        $flipover = false;
+        $coffee = false;
+        $thea = false;
+        $water = false;
+        $breakfast = '';
+        $lunch = '';
+        $snacks = '';
+    }
+echo $tv;
     if (isset($_POST['submit'])){
         $firstName = $_POST['firstName'];
         $lastName = $_POST['lastName'];
@@ -19,10 +29,33 @@
         $phone = $_POST['phone'];
         $allergy = $_POST['allergy'];
 
-        if (isset($_POST['myCheck']) && $_POST['myCheck'] == "Yes"){
-            $foodCheck = "Yes";
-            $preference = $_POST['preference'];
+        if (isset($_GET['id'])){
+            if (isset($_POST['tv']) && $_POST['tv'] == "yes"){
+                $tv = true;
+            }
+            if (isset($_POST['flipover']) && $_POST['flipover'] == "yes"){
+                $flipover = true;
+            }
+            if (isset($_POST['coffee']) && $_POST['coffee'] == "yes"){
+                $coffee = true;
+            }
+            if (isset($_POST['thea']) && $_POST['thea'] == "yes"){
+                $thea = true;
+            }
+            if (isset($_POST['water']) && $_POST['water'] == "yes"){
+                $thea = true;
+            }
         }
+
+            if (isset($_POST['myCheck']) && $_POST['myCheck'] == "Yes"){
+                $foodCheck = "Yes";
+                $specialRequest = $_POST['specialRequest'];
+                    if (isset($_GET['id'])) {
+                        $breakfast = $_POST['breakfast'];
+                        $lunch = $_POST['lunch'];
+                        $snacks = $_POST['snacks'];
+                    }
+            }
 
         $errors = [];
 
@@ -50,9 +83,15 @@
             $_SESSION['phone'] = $phone;
             $_SESSION['foodCheck'] = $foodCheck;
             $_SESSION['allergy'] = $allergy;
-            $_SESSION['preference'] = $preference;
-            $_SESSION['people'] = $people;
-            $_SESSION['location'] = $location;
+            $_SESSION['specialRequest'] = $specialRequest;
+            $_SESSION['tv'] = $tv;
+            $_SESSION['flipover'] = $flipover;
+            $_SESSION['coffee'] = $coffee;
+            $_SESSION['thea'] = $thea;
+            $_SESSION['water'] = $water;
+            $_SESSION['breakfast'] = $_POST['breakfast'];
+            $_SESSION['lunch'] = $_POST['lunch'];
+            $_SESSION['snacks'] = $_POST['snacks'];
             header('Location: confirm.php');
         }
     }
@@ -245,28 +284,27 @@
                     <label for="send-to" class="bold">Waarvoor wilt u de lounge gebruiken?</label>
                     <select name="send-to" id="send-to">
                         <option value="" disabled selected>Kies een gebruik</option>
-                        <option value="lunch">Lunch</option>
                         <option value="meet">Vergadering</option>
                         <option value="presentation">Presentatie</option>
                     </select>
                 </div>
                     <div>
                         <label>Huur vergaderbenodigheden</label><br>
-                        <input type="checkbox" id="tv" name="tv" value="TV scherm">
+                        <input type="checkbox" id="tv" name="tv" value="yes">
                         <label for="voorwaarden">TV scherm</label>
 
-                        <input type="checkbox" id="flipover" name="flipover" value="flipover">
+                        <input type="checkbox" id="flipover" name="flipover" value="yes">
                         <label for="flipover">flipover</label>
                     </div>
                     <div>
                         <label>Vergaderarrangement</label><br>
-                        <input type="checkbox" id="coffee" name="coffee" value="coffee">
+                        <input type="checkbox" id="coffee" name="coffee" value="yes">
                         <label for="coffee">1L koffie kan, per kan</label>
 
-                        <input type="checkbox" id="thea" name="thea" value="thea">
+                        <input type="checkbox" id="thea" name="thea" value="yes">
                         <label for="thea">1L thee kan, per kan</label>
 
-                        <input type="checkbox" id="water" name="water" value="water">
+                        <input type="checkbox" id="water" name="water" value="yes">
                         <label for="water">1L water, per kan</label>
                     </div>
                     <div class="form-box">
@@ -314,7 +352,7 @@
                         <label for="C">Ontbijt C</label>
                     </div>
                     <div>
-                        <input type="radio" id="C" name="breakfast" value="">
+                        <input type="radio" id="C" name="breakfast" value="none">
                         <label for="zero">Geen ontbijt</label>
                     </div>
                 </div>
@@ -335,7 +373,7 @@
                             <label for="C">Lunch C</label>
                         </div>
                         <div>
-                            <input type="radio" id="C" name="lunch" value="">
+                            <input type="radio" id="C" name="lunch" value="none">
                             <label for="zero">Geen lunch</label>
                         </div>
                     </div>
@@ -356,28 +394,28 @@
                             <label for="C">Snacks B warm & koud</label>
                         </div>
                         <div>
-                            <input type="radio" id="C" name="snacks" value="">
+                            <input type="radio" id="C" name="snacks" value="none">
                             <label for="zero">Geen snacks</label>
                         </div>
                     </div>
                     <br>
                 <?php }?>
-                <label class="bold" for="preference">Wilt u uw eten halal, vegan of vegatarisch?</label>
+                <label class="bold" for="specialRequest">Wilt u uw eten halal, vegan of vegatarisch?</label>
                 <div class="category-box">
                     <div>
-                        <input type="radio" id="Halal" name="preference" value="halal">
+                        <input type="radio" id="Halal" name="specialRequest" value="halal">
                         <label for="Halal">Halal</label>
                     </div>
                     <div>
-                        <input type="radio" id="Vegan" name="preference" value="vegan">
+                        <input type="radio" id="Vegan" name="specialRequest" value="vegan">
                         <label for="Vegan">Vegan</label>
                     </div>
                     <div>
-                        <input type="radio" id="Vegatarisch" name="preference" value="vegatarisch">
+                        <input type="radio" id="Vegatarisch" name="specialRequest" value="vegatarisch">
                         <label for="Vegatarisch">Vegatarisch</label>
                     </div>
                     <div>
-                        <input type="radio" id="none" name="preference" value="Geen voorkeuren" checked>
+                        <input type="radio" id="none" name="specialRequest" value="none" checked>
                         <label for="none">Geen voorkeur</label>
                     </div>
                 </div>
