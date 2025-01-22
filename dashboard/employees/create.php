@@ -8,13 +8,13 @@ session_start();
 
 if (!isset($_SESSION['login'])) {
     // Redirect if not logged in
-    header('Location: login.php');
+    header('Location: ' . HTTP . 'login.php');
     exit();
 }
 
 // check if user is admin
 if ($_SESSION['role'] !== 'admin') {
-    header('Location: ../reservations.php');
+    header('Location: ../index.php');
 }
 
 if (isset($_POST['submit'])) {
@@ -86,7 +86,7 @@ if (isset($_POST['submit'])) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../../css/bulma.css"/>
+    <link rel="stylesheet" href="<?= HTTP ?>css/bulma.css"/>
     <title>Aanmaken - Medewerkers | Heilige Boontjes</title>
 </head>
 <body>
@@ -98,7 +98,7 @@ if (isset($_POST['submit'])) {
             <a class="button" href="index.php">&laquo; Ga terug</a>
         </div>
         <div>
-            <a class="button my-2" href="../../logout.php">Uitloggen</a>
+            <a class="button my-2" href="<?= HTTP ?>logout.php">Uitloggen</a>
             <p class="subtitle"> Hallo, <?= htmlentities($_SESSION['first_name']) ?></p>
         </div>
     </div>

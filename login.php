@@ -73,8 +73,8 @@ if (isset($_POST['submit'])) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./css/bulma.css"/>
-    <script type="text/javascript" src="./js/navbar.js"></script>
+    <link rel="stylesheet" href="<?= HTTP ?>css/bulma.css"/>
+    <script type="text/javascript" src="<?= HTTP ?>js/navbar.js"></script>
     <title>Log in | Heilige Boontjes</title>
 </head>
 <body>
@@ -85,7 +85,8 @@ if (isset($_POST['submit'])) {
         <p class="subtitle">Deze inlogpagina is alleen voor medewerkers</p>
         <?php if ($login) { ?>
             <p>Je bent al ingelogd!</p>
-            <p><a href="logout.php">Uitloggen</a> / <a href="dashboard/index.php">Naar dashboard</a></p>
+            <p><a href="<?= HTTP ?>logout.php">Uitloggen</a> / <a href="<?= HTTP ?>dashboard/index.php">Naar
+                    dashboard</a></p>
         <?php } else { ?>
             <section class="columns">
                 <form class="column is-6" action="" method="post">

@@ -8,13 +8,13 @@ session_start();
 
 if (!isset($_SESSION['login'])) {
     // Redirect if not logged in
-    header('Location: login.php');
+    header('Location: ' . HTTP . 'login.php');
     exit();
 }
 
 // check if user is admin
 if ($_SESSION['role'] !== 'admin') {
-    header('Location: ../reservations.php');
+    header('Location: ../index.php');
 }
 
 // check if id is set
@@ -60,7 +60,7 @@ mysqli_close($db);
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../../css/bulma.css"/>
+    <link rel="stylesheet" href="<?= HTTP ?>css/bulma.css"/>
     <title>Verwijderen - Medewerkers | Heilige Boontjes</title>
 </head>
 <body>
@@ -72,43 +72,44 @@ mysqli_close($db);
             <a class="button" href="index.php">&laquo; Ga terug</a>
         </div>
         <div>
-            <a class="button my-2" href="../../logout.php">Uitloggen</a>
+            <a class="button my-2" href="<?= HTTP ?>logout.php">Uitloggen</a>
             <p class="subtitle"> Hallo, <?= htmlentities($_SESSION['first_name']) ?></p>
         </div>
     </div>
 </header>
 <main>
-<div class="container px-4">
-    <section class="columns is-centered">
-        <div class="column is-10">
-            <?php if (!isset($_POST['yes'])) { ?>
-                <h2 class="title mt-4">Weet je het zeker dat je deze medewerker wilt verwijderen?</h2>
-                <p>Voornaam: <?= htmlentities($user['first_name']) ?></p>
-                <p>Achternaam: <?= htmlentities($user['last_name']) ?></p>
-                <p>Telefoon: <?= htmlentities($user['phone']) ?></p>
-                <p>Email: <?= htmlentities($user['email']) ?></p>
-                <p>Rol: <?= htmlentities($user['role']) ?></p>
-                <form class="column is-6" action="" method="post">
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal"></div>
-                        <div class="field-body">
-                            <button class="button is-link is-fullwidth" type="submit" name="no">Nee</button>
+    <div class="container px-4">
+        <section class="columns is-centered">
+            <div class="column is-10">
+                <?php if (!isset($_POST['yes'])) { ?>
+                    <h2 class="title mt-4">Weet je het zeker dat je deze medewerker wilt verwijderen?</h2>
+                    <p>Voornaam: <?= htmlentities($user['first_name']) ?></p>
+                    <p>Achternaam: <?= htmlentities($user['last_name']) ?></p>
+                    <p>Telefoon: <?= htmlentities($user['phone']) ?></p>
+                    <p>Email: <?= htmlentities($user['email']) ?></p>
+                    <p>Rol: <?= htmlentities($user['role']) ?></p>
+                    <form class="column is-6" action="" method="post">
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal"></div>
+                            <div class="field-body">
+                                <button class="button is-link is-fullwidth" type="submit" name="no">Nee</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal"></div>
-                        <div class="field-body">
-                            <button class="button is-link is-fullwidth is-danger" type="submit" name="yes">Ja</button>
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal"></div>
+                            <div class="field-body">
+                                <button class="button is-link is-fullwidth is-danger" type="submit" name="yes">Ja
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <input type="hidden" name="id" value="<?= $id ?>"/>
-                </form>
-            <?php } else { ?>
-                <h2 class="title mt-4">Medewerker verwijderd!</h2>
-            <?php } ?>
-        </div>
-    </section>
-</div>
+                        <input type="hidden" name="id" value="<?= $id ?>"/>
+                    </form>
+                <?php } else { ?>
+                    <h2 class="title mt-4">Medewerker verwijderd!</h2>
+                <?php } ?>
+            </div>
+        </section>
+    </div>
 </main>
 </body>
 </html>

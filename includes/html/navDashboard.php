@@ -7,26 +7,26 @@ if (session_status() == PHP_SESSION_NONE) {
 
 if (!isset($_SESSION['login'])) {
     // Redirect if not logged in
-    header('Location: /login.php');
+    header('Location: ' . HTTP . 'login.php');
     exit();
 }
 
 $loggedIn = false;
 $loggedInText = 'Log In';
-$loggedInLink = 'login.php';
+$loggedInLink = HTTP . 'login.php';
 
 // check if logged in
 if (isset($_SESSION['login'])) {
     $loggedIn = true;
     $loggedInText = 'Dashboard';
-    $loggedInLink = 'dashboard/index.php';
+    $loggedInLink = HTTP . 'dashboard/index.php';
 }
 ?>
 <nav class="navbar is-primary">
     <div class="navbar-brand">
-        <a class="navbar-item" href="/dashboard/index.php">
+        <a class="navbar-item" href="<?= HTTP ?>dashboard/index.php">
             <figure class="image is-640x160">
-                <img src="/images/logo.svg" alt="logo"/>
+                <img src="<?= HTTP ?>images/logo.svg" alt="logo"/>
             </figure>
         </a>
         <div class="navbar-burger js-burger" data-target="navMenuColorprimary">
@@ -38,9 +38,9 @@ if (isset($_SESSION['login'])) {
     </div>
     <div id="navMenuColorprimary" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item" href="/dashboard/index.php"> Reserveringen </a>
+            <a class="navbar-item" href="<?= HTTP ?>dashboard/index.php"> Reserveringen </a>
             <?php if ($_SESSION['role'] == 'admin') { ?>
-                <a class="navbar-item" href="/dashboard/employees/index.php"> Medewerkers </a>
+                <a class="navbar-item" href="<?= HTTP ?>dashboard/employees/index.php"> Medewerkers </a>
             <?php } ?>
         </div>
 
@@ -50,13 +50,13 @@ if (isset($_SESSION['login'])) {
                 <div class="field is-grouped">
                     <p class="control">
                         <a class="button is-primary is-light"
-                           href="/index.php">
+                           href="<?= HTTP ?>index.php">
                             <span>Terug naar website</span>
                         </a>
                     </p>
                     <p class="control">
                         <a class="button is-primary is-soft"
-                           href="/logout.php">
+                           href="<?= HTTP ?>logout.php">
                             <span>Uitloggen</span>
                         </a>
                     </p>

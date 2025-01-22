@@ -10,8 +10,8 @@ session_start();
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./css/bulma.css"/>
-    <script type="text/javascript" src="./js/navbar.js"></script>
+    <link rel="stylesheet" href="<?= HTTP ?>css/bulma.css"/>
+    <script type="text/javascript" src="<?= HTTP ?>js/navbar.js"></script>
     <title>Reserveren | Heilige Boontjes</title>
 </head>
 <body>
@@ -44,7 +44,7 @@ session_start();
         <h1 class="title">Reserveren bij ons</h1>
         <div class="columns is-multiline is-centered">
             <div class="column is-half">
-                <a class="notification media" href="gegevens/table.php">
+                <a class="notification media" href="<?= HTTP ?>gegevens/table.php">
                     <figure class="media-left">
                 <span class="icon has-text-info">
                   <i class="fa fa-lg fa-utensils"></i>
@@ -62,7 +62,7 @@ session_start();
                 </a>
             </div>
             <div class="column is-half">
-                <a class="notification media" href="gegevens/gegevens.php?id=2">
+                <a class="notification media" href="<?= HTTP ?>gegevens/gegevens.php?id=2">
                     <figure class="media-left">
                 <span class="icon has-text-danger">
                   <i class="fa fa-lg fa-couch"></i>

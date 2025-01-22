@@ -8,13 +8,13 @@ session_start();
 
 if (!isset($_SESSION['login'])) {
     // Redirect if not logged in
-    header('Location: login.php');
+    header('Location: ' . HTTP . 'login.php');
     exit();
 }
 
 // check if user is admin
 if ($_SESSION['role'] !== 'admin') {
-    header('Location: ../reservations.php');
+    header('Location: ../index.php');
 }
 
 // check if id is set
@@ -48,7 +48,7 @@ if (mysqli_num_rows($result) != 1) {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Details - Medewerkers | Heilige Bonen</title>
-    <link rel="stylesheet" href="../../css/bulma.css">
+    <link rel="stylesheet" href="<?= HTTP ?>css/bulma.css">
 </head>
 <body>
 
@@ -60,7 +60,7 @@ if (mysqli_num_rows($result) != 1) {
             <a class="button" href="index.php">&laquo; Ga terug</a>
         </div>
         <div>
-            <a class="button my-2" href="../../logout.php">Uitloggen</a>
+            <a class="button my-2" href="<?= HTTP ?>logout.php">Uitloggen</a>
             <p class="subtitle"> Hallo, <?= htmlentities($_SESSION['first_name']) ?></p>
         </div>
     </div>

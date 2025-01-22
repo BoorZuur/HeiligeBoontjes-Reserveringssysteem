@@ -2,20 +2,20 @@
 // start session voor het laden
 $loggedIn = false;
 $loggedInText = 'Log In';
-$loggedInLink = 'login.php';
+$loggedInLink = HTTP . 'login.php';
 
 // check if logged in
 if (isset($_SESSION['login'])) {
     $loggedIn = true;
     $loggedInText = 'Ga naar dashboard';
-    $loggedInLink = 'dashboard/index.php';
+    $loggedInLink = HTTP . 'dashboard/index.php';
 }
 ?>
 <nav class="navbar is-primary">
     <div class="navbar-brand">
-        <a class="navbar-item" href="/index.php">
+        <a class="navbar-item" href="<?= HTTP ?>index.php">
             <figure class="image is-640x160">
-                <img src="/images/logo.svg" alt="logo"/>
+                <img src="<?= HTTP ?>images/logo.svg" alt="logo"/>
             </figure>
         </a>
         <div class="navbar-burger js-burger" data-target="navMenuColorprimary">
@@ -32,10 +32,10 @@ if (isset($_SESSION['login'])) {
             <div class="navbar-item has-dropdown">
                 <a class="navbar-link"> Grand Cafe </a>
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" href="https://bulma.io/documentation/overview/start/"> Info </a>
-                    <a class="navbar-item" href="https://bulma.io/documentation/overview/modifiers/"> Menu </a>
+                    <a class="navbar-item" href="<?= HTTP ?>"> Info </a>
+                    <a class="navbar-item" href="<?= HTTP ?>"> Menu </a>
                     <hr class="navbar-divider">
-                    <a class="navbar-item is-active" href="https://bulma.io/documentation/columns/basics/">
+                    <a class="navbar-item is-active" href="<?= HTTP ?>table.php">
                         Reserveren </a>
                 </div>
             </div>
@@ -46,7 +46,7 @@ if (isset($_SESSION['login'])) {
                 <div class="field is-grouped">
                     <?php if (!$loggedIn) { ?>
                         <p class="control">
-                            <a class="button is-primary is-soft" href="/reserveren/index.php">
+                            <a class="button is-primary is-soft" href="<?= HTTP ?>table.php">
                                 <span>Reserveren</span>
                             </a>
                         </p>
@@ -60,7 +60,7 @@ if (isset($_SESSION['login'])) {
                     <?php if ($loggedIn) { ?>
                         <p class="control">
                             <a class="button is-primary is-soft"
-                               href="/logout.php">
+                               href="<?= HTTP ?>logout.php">
                                 <span>Uitloggen</span>
                             </a>
                         </p>

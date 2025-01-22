@@ -11,13 +11,13 @@ session_start();
 // check if employee is logged in
 if (!isset($_SESSION['login'])) {
     // Redirect if not logged in
-    header('Location: ../../login.php');
+    header('Location: ' . HTTP . 'login.php');
     exit();
 }
 
 // check if employee is admin
 if ($_SESSION['role'] !== 'admin') {
-    header('Location: ../reservations.php');
+    header('Location: ../index.php');
 }
 
 $query = "SELECT * FROM employees";
@@ -40,7 +40,7 @@ mysqli_close($db);
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/css/bulma.css"/>
+    <link rel="stylesheet" href="<?= HTTP ?>css/bulma.css"/>
     <title>Medewerkers | Heilige Boontjes</title>
 </head>
 <body>
