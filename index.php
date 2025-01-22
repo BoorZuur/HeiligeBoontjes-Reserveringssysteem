@@ -80,7 +80,8 @@ session_start();
                 </a>
             </div>
             <div class="column is-half is-centered">
-                <a class="notification media" href="https://www.heiligeboontjes.com/menu.pdf">
+                <a class="notification media"
+                   href="https://www.heiligeboontjes.com/wp-content/uploads/2024/05/HB-Menukaart-2024.pdf">
                     <figure class="media-left">
                 <span class="icon">
                   <i class="has-text-primary fa fa-book-open fa-lg"></i>

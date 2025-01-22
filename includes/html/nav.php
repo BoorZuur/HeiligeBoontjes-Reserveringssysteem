@@ -35,7 +35,7 @@ if (isset($_SESSION['login'])) {
                     <a class="navbar-item" href="<?= HTTP ?>"> Info </a>
                     <a class="navbar-item" href="<?= HTTP ?>"> Menu </a>
                     <hr class="navbar-divider">
-                    <a class="navbar-item is-active" href="<?= HTTP ?>table.php">
+                    <a class="navbar-item is-active" href="<?= HTTP ?>gegevens/table.php">
                         Reserveren </a>
                 </div>
             </div>
@@ -46,7 +46,7 @@ if (isset($_SESSION['login'])) {
                 <div class="field is-grouped">
                     <?php if (!$loggedIn) { ?>
                         <p class="control">
-                            <a class="button is-primary is-soft" href="<?= HTTP ?>table.php">
+                            <a class="button is-primary is-soft" href="<?= HTTP ?>gegevens/table.php">
                                 <span>Reserveren</span>
                             </a>
                         </p>
